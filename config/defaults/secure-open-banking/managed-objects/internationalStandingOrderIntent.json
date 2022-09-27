@@ -833,8 +833,7 @@
                   "FirstPaymentDateTime",
                   "Frequency",
                   "CreditorAccount",
-                  "InstructedAmount",
-                  "Permission"
+                  "InstructedAmount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single international payment.",
                 "isVirtual": false,
@@ -1004,7 +1003,8 @@
               "CreationDateTime",
               "Status",
               "StatusUpdateDateTime",
-              "Initiation"
+              "Initiation",
+              "Permission"
             ]
           },
           "Risk": {
