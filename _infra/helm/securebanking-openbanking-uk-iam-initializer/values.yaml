@@ -6,6 +6,7 @@ deployment:
     repo: eu.gcr.io/sbat-gcr-develop/securebanking
     iam_initializer_image_name: secureopenbanking-uk-iam-initializer
     iam_initializer_image_tag: latest
+  imagePullPolicy: Always
 
 # ** Value Name:** iam_initializer_image_location
 #
