@@ -10,11 +10,11 @@ function getIdmClientDetails() {
 }
 
 // Constants
-var statusList = ["Authorised", "Consumed"];
-var script_name = "policy_evaluation_script.js"
+const statusList = ["Authorised", "Consumed"];
+const script_name = "policy_evaluation_script.js";
 logger.message(script_name + ": starting")
 
-var accountsAndTransactionsPermissions = [
+const accountsAndTransactionsPermissions = [
     {name: "READACCOUNTSBASIC", property: {permission: "ReadAccountsBasic", requestType: "accounts"}},
     {name: "READACCOUNTSDETAIL", property: {permission: "ReadAccountsDetail", requestType: "accounts"}},
     {name: "READBALANCES", property: {permission: "ReadBalances", requestType: "balances"}},
@@ -28,10 +28,22 @@ var accountsAndTransactionsPermissions = [
     {name: "READPARTYPSU", property: {permission: "ReadPartyPSU", requestType: "party"}},
     {name: "READPRODUCT", property: {permission: "ReadProducts", requestType: "product"}},
     {name: "READPRODUCTS", property: {permission: "ReadProducts", requestType: "products"}},
-    {name: "READSCHEDULEDPAYMENTSBASIC", property: {permission: "ReadScheduledPaymentsBasic", requestType: "scheduled-payments"}},
-    {name: "READSCHEDULEDPAYMENTSDETAIL", property: {permission: "ReadScheduledPaymentsDetail", requestType: "scheduled-payments"}},
-    {name: "READSTANDINGORDERSBASIC",property: {permission: "ReadStandingOrdersBasic", requestType: "standing-orders"}},
-    {name: "READSTANDINGORDERSDETAIL",property: {permission: "ReadStandingOrdersDetail", requestType: "standing-orders"}},
+    {
+        name: "READSCHEDULEDPAYMENTSBASIC",
+        property: {permission: "ReadScheduledPaymentsBasic", requestType: "scheduled-payments"}
+    },
+    {
+        name: "READSCHEDULEDPAYMENTSDETAIL",
+        property: {permission: "ReadScheduledPaymentsDetail", requestType: "scheduled-payments"}
+    },
+    {
+        name: "READSTANDINGORDERSBASIC",
+        property: {permission: "ReadStandingOrdersBasic", requestType: "standing-orders"}
+    },
+    {
+        name: "READSTANDINGORDERSDETAIL",
+        property: {permission: "ReadStandingOrdersDetail", requestType: "standing-orders"}
+    },
     {name: "READSTATEMENTSBASIC", property: {permission: "ReadStatementsBasic", requestType: "statements"}},
     {name: "READSTATEMENTSDETAIL", property: {permission: "ReadStatementsDetail", requestType: "statements"}},
     {name: "READTRANSACTIONSBASIC", property: {permission: "ReadTransactionsBasic", requestType: "transactions"}},
@@ -40,10 +52,13 @@ var accountsAndTransactionsPermissions = [
     {name: "READTRANSACTIONSDETAIL", property: {permission: "ReadTransactionsDetail", requestType: "transactions"}}
 ];
 
-var paymentsIntents = ["domesticPaymentIntent", "domesticScheduledPaymentIntent", "domesticStandingOrderIntent", "internationalPaymentIntent", "internationalScheduledPaymentIntent"];
+const paymentsIntents = [
+    "domesticPaymentIntent", "domesticScheduledPaymentIntent", "domesticStandingOrderIntent",
+    "internationalPaymentIntent", "internationalScheduledPaymentIntent", "internationalStandingOrderIntent"
+];
 
 function getPermissionAccountAndTransactions(name) {
-    for (var i = 0; i < accountsAndTransactionsPermissions.length; i++) {
+    for (let i = 0; i < accountsAndTransactionsPermissions.length; i++) {
         if (accountsAndTransactionsPermissions[i].name === name || accountsAndTransactionsPermissions[i].property.permission == name) {
             return accountsAndTransactionsPermissions[i].property.permission
         }
@@ -52,7 +67,7 @@ function getPermissionAccountAndTransactions(name) {
 }
 
 function getRequestTypeAccountAndTransactions(requestType) {
-    for (var i = 0; i < accountsAndTransactionsPermissions.length; i++) {
+    for (let i = 0; i < accountsAndTransactionsPermissions.length; i++) {
         if (accountsAndTransactionsPermissions[i].property.requestType === requestType) return accountsAndTransactionsPermissions[i].property.requestType
     }
     return null
@@ -63,7 +78,7 @@ function dataAuthorisedAccountAndTransactions(permissions, requestType) {
         case "transactions":
             return ((permissions.indexOf(getPermissionAccountAndTransactions("READTRANSACTIONSBASIC")) > -1 || permissions.indexOf(getPermissionAccountAndTransactions("READTRANSACTIONSDETAIL")) > -1) && (permissions.indexOf(getPermissionAccountAndTransactions("READTRANSACTIONSDEBITS")) > -1 || permissions.indexOf(getPermissionAccountAndTransactions("READTRANSACTIONSCREDITS")) > -1))
         default:
-            for (var i = 0; i < accountsAndTransactionsPermissions.length; i++) {
+            for (let i = 0; i < accountsAndTransactionsPermissions.length; i++) {
                 if (requestType == accountsAndTransactionsPermissions[i].property.requestType && permissions.indexOf(accountsAndTransactionsPermissions[i].property.permission) > -1) return true
             }
     }
@@ -77,7 +92,7 @@ function dataAuthorised(permissions, requestType) {
 }
 
 function parseResourceUri() {
-    var elements = resourceURI.split("/");
+    const elements = resourceURI.split("/");
     return {
         "api": elements[6].indexOf("?") > -1 ? elements[6].substring(0, elements[6].indexOf("?")) : elements[6],
         "id": (elements.length > 7) ? elements[7] : null,
@@ -85,15 +100,16 @@ function parseResourceUri() {
     }
 }
 
-var p = "=";
-var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const p = "=";
+const tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 function base64encode(ba) {
-    var s = [], l = ba.length;
-    var rm = l % 3;
-    var x = l - rm;
-    for (var i = 0; i < x;) {
-        var t = ba[i++] << 16 | ba[i++] << 8 | ba[i++];
+    let i;
+    const s = [], l = ba.length;
+    const rm = l % 3;
+    const x = l - rm;
+    for (i = 0; i < x;) {
+        const t = ba[i++] << 16 | ba[i++] << 8 | ba[i++];
         s.push(tab.charAt((t >>> 18) & 0x3f));
         s.push(tab.charAt((t >>> 12) & 0x3f));
         s.push(tab.charAt((t >>> 6) & 0x3f));
@@ -102,7 +118,7 @@ function base64encode(ba) {
     //	deal with trailers, based on patch from Peter Wood.
     switch (rm) {
         case 2: {
-            var t = ba[i++] << 16 | ba[i++] << 8;
+            const t = ba[i++] << 16 | ba[i++] << 8;
             s.push(tab.charAt((t >>> 18) & 0x3f));
             s.push(tab.charAt((t >>> 12) & 0x3f));
             s.push(tab.charAt((t >>> 6) & 0x3f));
@@ -110,7 +126,7 @@ function base64encode(ba) {
             break;
         }
         case 1: {
-            var t = ba[i++] << 16;
+            const t = ba[i++] << 16;
             s.push(tab.charAt((t >>> 18) & 0x3f));
             s.push(tab.charAt((t >>> 12) & 0x3f));
             s.push(p);
@@ -122,12 +138,12 @@ function base64encode(ba) {
 }
 
 function base64decode(str) {
-    var s = str.split(""), out = [];
-    var l = s.length;
+    const s = str.split(""), out = [];
+    let l = s.length;
     while (s[--l] == p) {
     }	//	strip off trailing padding
-    for (var i = 0; i < l;) {
-        var t = tab.indexOf(s[i++]) << 18;
+    for (let i = 0; i < l;) {
+        let t = tab.indexOf(s[i++]) << 18;
         if (i <= l) {
             t |= tab.indexOf(s[i++]) << 12
         }
@@ -152,8 +168,8 @@ function base64decode(str) {
 }
 
 function stringFromArray(data) {
-    var count = data.length;
-    var str = "";
+    const count = data.length;
+    let str = "";
 
     for (var index = 0; index < count; index += 1)
         str += String.fromCharCode(data[index]);
@@ -167,12 +183,12 @@ function logResponse(callerMethod, response) {
 
 function getIdmAccessToken() {
 
-    var clientInfo = getIdmClientDetails();
-    var request = new org.forgerock.http.protocol.Request();
+    const clientInfo = getIdmClientDetails();
+    const request = new org.forgerock.http.protocol.Request();
     request.setUri(clientInfo.endpoint);
     request.setMethod("POST");
     request.getHeaders().add("Content-Type", "application/x-www-form-urlencoded");
-    var formvars = "grant_type=password" +
+    const formvars = "grant_type=password" +
         "&client_id=" + clientInfo.id +
         "&client_secret=" + clientInfo.secret +
         "&scope=" + clientInfo.scope +
@@ -180,16 +196,15 @@ function getIdmAccessToken() {
         "&password=" + clientInfo.idmAdminPassword;
     request.setEntity(formvars);
 
-    var response = httpClient.send(request).get();
+    const response = httpClient.send(request).get();
 
 
     logResponse("getIdmAccessToken", response);
 
-    var oauth2response = JSON.parse(response.getEntity().getString());
+    const oauth2response = JSON.parse(response.getEntity().getString());
 
-    var accessToken = oauth2response.access_token
-    logger.message(script_name + ": Got access token " + accessToken);
-    return accessToken
+    logger.message(script_name + ": Got access token " + oauth2response.access_token);
+    return oauth2response.access_token
 }
 
 function findIntentType(api) {
@@ -205,25 +220,26 @@ function findIntentType(api) {
         return "internationalPaymentIntent"
     } else if (api === "international-scheduled-payments" || api === "international-scheduled-payment-consents") {
         return "internationalScheduledPaymentIntent"
+    } else if (api == "international-standing-orders" || api == "international-standing-order-consents") {
+        return "internationalStandingOrderIntent"
     }
     return null
 }
 
 function getIntent(intentId, intentType) {
-    var accessToken = getIdmAccessToken();
-    var request = new org.forgerock.http.protocol.Request();
-    var uri = "http://idm/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,Data,Risk,user/_id,accounts,apiClient/_id"
+    const accessToken = getIdmAccessToken();
+    const request = new org.forgerock.http.protocol.Request();
+    const uri = "http://idm/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,Data,Risk,user/_id,accounts,apiClient/_id"
     logger.message(script_name + ": IDM fetch " + uri)
 
     request.setMethod('GET');
     request.setUri(uri)
     request.getHeaders().add("Authorization", "Bearer " + accessToken);
 
-    var response = httpClient.send(request).get();
+    const response = httpClient.send(request).get();
     logResponse("getIntent", response);
 
-    var intent = JSON.parse(response.getEntity().getString());
-    return intent
+    return JSON.parse(response.getEntity().getString());
 }
 
 function deepCompare(arg1, arg2) {
@@ -242,14 +258,14 @@ function deepCompare(arg1, arg2) {
 }
 
 function initiationMatch(initiationRequest, initiation) {
-    var initiationRequestObj = JSON.parse(stringFromArray(base64decode(initiationRequest)))
+    const initiationRequestObj = JSON.parse(stringFromArray(base64decode(initiationRequest)))
     if (initiation.DebtorAccount && initiation.DebtorAccount.AccountId) {
         delete initiation.DebtorAccount.AccountId;
     }
     logger.message(script_name + ": initiationRequestObj " + JSON.stringify(initiationRequestObj))
     logger.message(script_name + ": initiation " + JSON.stringify(initiation))
 
-    var match = deepCompare(initiationRequestObj, initiation);
+    const match = deepCompare(initiationRequestObj, initiation);
     if (!match) {
         logger.warning(script_name + ": Mismatch between request [" + JSON.stringify(initiationRequestObj) + "] and consent [" + JSON.stringify(initiation) + "]");
     }
@@ -257,21 +273,21 @@ function initiationMatch(initiationRequest, initiation) {
     return match
 }
 
-var intentId = environment.get("intent_id").iterator().next();
-var apiRequest = parseResourceUri()
+const intentId = environment.get("intent_id").iterator().next();
+const apiRequest = parseResourceUri()
 logger.message(script_name + ": req " + apiRequest.api + ":" + apiRequest.id + ":" + apiRequest.data);
 
-var intentType = findIntentType(apiRequest.api)
-var intent = getIntent(intentId, intentType);
+const intentType = findIntentType(apiRequest.api)
+const intent = getIntent(intentId, intentType);
+
+const status = intent.Data.Status
+const permissions = intent.Data.Permissions
+const accounts = intent.accounts
+// The responseAttributes expected always and array as value
+const userResourceOwner = new Array(intent.user._id)
 
 if (intentType === "accountAccessIntent") {
     logger.message(script_name + ": Account Access Intent");
-
-    var status = intent.Data.Status
-    var permissions = intent.Data.Permissions
-    var accounts = intent.accounts
-    // The responseAttributes expected always and array as value
-    var userResourceOwner = new Array(intent.user._id)
 
     if (statusList.indexOf(status) == -1) {
         logger.message(script_name + "-[Account Access]: Rejecting request - status [" + status + "]")
@@ -303,21 +319,18 @@ if (intentType === "accountAccessIntent") {
 } else if (paymentsIntents.indexOf(intentType) !== -1) {
     logger.message(script_name + ": Payments Intent");
 
-    var status = intent.Data.Status
-    var userResourceOwner = new Array(intent.user._id)
-
     if (statusList.indexOf(status) == -1) {
         logger.message(script_name + "-[Payments]: Rejecting request - status [" + status + "]")
         authorized = false
     } else {
         responseAttributes.put("userResourceOwner", userResourceOwner);
-        var requestMethod = environment.get("request_method").iterator().next()
+        const requestMethod = environment.get("request_method").iterator().next();
 
         if (requestMethod != null) {
             switch (requestMethod) {
                 case "POST":
                     logger.message(script_name + "-[Payments]: POST request");
-                    var initiation = environment.get("initiation").iterator().next()
+                    const initiation = environment.get("initiation").iterator().next();
                     authorized = initiationMatch(initiation, intent.Data.Initiation)
                     break;
                 case "GET":
