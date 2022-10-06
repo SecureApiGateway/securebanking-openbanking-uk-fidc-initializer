@@ -38,7 +38,7 @@
               "description": "Open Banking Intent Object",
               "type": "object",
               "viewable": true,
-              "searchable": true,
+              "searchable": false,
               "userEditable": true,
               "isVirtual": false,
               "nullable": false,
