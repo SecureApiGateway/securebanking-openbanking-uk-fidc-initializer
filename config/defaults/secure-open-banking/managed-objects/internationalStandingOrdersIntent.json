@@ -21,8 +21,7 @@
             "minLength": 1,
             "maxLength": 16,
             "nullable": false
-          }
-        },
+          },
           "OBIntentObjectType": {
             "title": "OB Intent Object Type",
             "description": "Open Banking API Intent Object Type",

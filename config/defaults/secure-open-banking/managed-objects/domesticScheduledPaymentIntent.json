@@ -504,7 +504,6 @@
                             "description": "Number that identifies the position of a building on a street.",
                             "minLength": 1,
                             "maxLength": 16,
-                            "isVirtual": false,
                             "isVirtual": false
                           },
                           "PostCode": {
