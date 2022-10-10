@@ -248,9 +248,6 @@ function deepCompare(arg1, arg2) {
 
 function initiationMatch(initiationRequest, initiation) {
     var initiationRequestObj = JSON.parse(stringFromArray(base64decode(initiationRequest)))
-    if (initiation.DebtorAccount && initiation.DebtorAccount.AccountId) {
-        delete initiation.DebtorAccount.AccountId;
-    }
     logger.message(script_name + ": initiationRequestObj " + JSON.stringify(initiationRequestObj))
     logger.message(script_name + ": initiation " + JSON.stringify(initiation))
 
