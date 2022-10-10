@@ -267,7 +267,7 @@ var intentType = findIntentType(apiRequest.api)
 var intent = fetchIntentFromIdm(intentId, intentType);
 var obIntentObj = intent.OBIntentObject
 var status = obIntentObj.Data.Status
-// The responseAttributes expected always and array as value
+// The responseAttributes expects each value to be an array
 var userResourceOwner = new Array(intent.user._id)
 if (intentType === "accountAccessIntent") {
     logger.message(script_name + ": Account Access Intent");
