@@ -191,7 +191,7 @@
   "consent": {
     "clientsCanSkipConsent": false,
     "supportedRcsRequestSigningAlgorithms": [
-      "RS256"
+      "PS256"
     ],
     "supportedRcsRequestEncryptionMethods": [
       "A256GCM",
