@@ -214,7 +214,7 @@
       "A192KW"
     ],
     "supportedRcsResponseSigningAlgorithms": [
-      "RS256"
+      "PS256"
     ],
     "enableRemoteConsent": true,
     "supportedRcsResponseEncryptionAlgorithms": [
