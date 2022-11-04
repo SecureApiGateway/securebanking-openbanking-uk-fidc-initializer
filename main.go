@@ -75,6 +75,9 @@ func main() {
 	fmt.Println("Attempting to configure AM CORS Service")
 	securebanking.ConfigureAmCorsService(session.Cookie)
 
+	fmt.Println("Attempting to create AM Validation Service")
+	securebanking.CreateAmValidationService(session.Cookie)
+
 	fmt.Println("Attempt PSD2 authentication trees initialization...")
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
 	fmt.Println("Attempt to create secure banking remote consent...")
