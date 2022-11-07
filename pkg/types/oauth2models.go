@@ -53,7 +53,6 @@ type (
 		ResponseTypeClasses                     []string      `json:"responseTypeClasses"`
 		TokenCompressionEnabled                 bool          `json:"tokenCompressionEnabled"`
 		AllowedAudienceValues                   []interface{} `json:"allowedAudienceValues"`
-		ScopeImplementationClass                string        `json:"scopeImplementationClass"`
 		TLSCertificateRevocationCheckingEnabled bool          `json:"tlsCertificateRevocationCheckingEnabled"`
 	}
 
