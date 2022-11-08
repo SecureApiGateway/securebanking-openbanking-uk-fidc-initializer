@@ -24,15 +24,14 @@ type (
 	}
 
 	CoreOAuth2Config struct {
-		AccessTokenModificationScript     string `json:"accessTokenModificationScript"`
-		UsePolicyEngineForScope           bool   `json:"usePolicyEngineForScope"`
-		MacaroonTokensEnabled             bool   `json:"macaroonTokensEnabled"`
-		StatelessTokensEnabled            bool   `json:"statelessTokensEnabled"`
-		CodeLifetime                      int    `json:"codeLifetime"`
-		IssueRefreshTokenOnRefreshedToken bool   `json:"issueRefreshTokenOnRefreshedToken"`
-		RefreshTokenLifetime              int    `json:"refreshTokenLifetime"`
-		AccessTokenLifetime               int    `json:"accessTokenLifetime"`
-		IssueRefreshToken                 bool   `json:"issueRefreshToken"`
+		UsePolicyEngineForScope           bool `json:"usePolicyEngineForScope"`
+		MacaroonTokensEnabled             bool `json:"macaroonTokensEnabled"`
+		StatelessTokensEnabled            bool `json:"statelessTokensEnabled"`
+		CodeLifetime                      int  `json:"codeLifetime"`
+		IssueRefreshTokenOnRefreshedToken bool `json:"issueRefreshTokenOnRefreshedToken"`
+		RefreshTokenLifetime              int  `json:"refreshTokenLifetime"`
+		AccessTokenLifetime               int  `json:"accessTokenLifetime"`
+		IssueRefreshToken                 bool `json:"issueRefreshToken"`
 	}
 
 	AdvancedOAuth2Config struct {
@@ -57,7 +56,6 @@ type (
 	}
 
 	CoreOIDCConfig struct {
-		OidcClaimsScript                     string   `json:"oidcClaimsScript"`
 		SupportedClaims                      []string `json:"supportedClaims"`
 		JwtTokenLifetime                     int      `json:"jwtTokenLifetime"`
 		SupportedIDTokenEncryptionAlgorithms []string `json:"supportedIDTokenEncryptionAlgorithms"`
@@ -120,6 +118,22 @@ type (
 		RemoteConsentServiceID                   string   `json:"remoteConsentServiceId"`
 	}
 
+	PluginsConfig struct {
+		AccessTokenModificationScript           string `json:"accessTokenModificationScript"`
+		AccessTokenEnricherClass                string `json:"accessTokenEnricherClass"`
+		AccessTokenModificationPluginType       string `json:"accessTokenModificationPluginType"`
+		AccessTokenModifierClass                string `json:"accessTokenModifierClass"`
+		AuthorizeEndpointDataProviderClass      string `json:"authorizeEndpointDataProviderClass"`
+		AuthorizeEndpointDataProviderPluginType string `json:"authorizeEndpointDataProviderPluginType"`
+		OidcClaimsScript                        string `json:"oidcClaimsScript"`
+		OidcClaimsClass                         string `json:"oidcClaimsClass"`
+		OidcClaimsPluginType                    string `json:"oidcClaimsPluginType"`
+		EvaluateScopeClass                      string `json:"evaluateScopeClass"`
+		EvaluateScopePluginType                 string `json:"evaluateScopePluginType"`
+		ValidateScopeClass                      string `json:"validateScopeClass"`
+		ValidateScopePluginType                 string `json:"validateScopePluginType"`
+	}
+
 	DeviceCodeConfig struct {
 		DevicePollInterval int `json:"devicePollInterval"`
 		DeviceCodeLifetime int `json:"deviceCodeLifetime"`
@@ -166,6 +180,7 @@ type OAuth2Provider struct {
 	CibaConfig                      CibaConfig                      `json:"cibaConfig"`
 	Consent                         Consent                         `json:"consent"`
 	DeviceCodeConfig                DeviceCodeConfig                `json:"deviceCodeConfig"`
+	PluginsConfig                   PluginsConfig                   `json:"pluginsConfig"`
 	ID                              string                          `json:"_id"`
 	Type                            Type                            `json:"_type"`
 }
