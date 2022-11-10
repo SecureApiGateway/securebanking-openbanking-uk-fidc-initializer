@@ -39,7 +39,8 @@
     "sec-fetch-user",
     "upgrade-insecure-requests",
     "authorization",
-    "x-requested-with"
+    "x-requested-with",
+    "x-forgerock-transactionid"
   ],
   "exposedHeaders": [
     "Cache-Control",
