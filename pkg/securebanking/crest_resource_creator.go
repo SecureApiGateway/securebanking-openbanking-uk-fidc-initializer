@@ -23,7 +23,7 @@ func UpdateCrestResourceFromConfigFile(url string, configFileName string, cookie
 // This method is suitable when the config is complete with only template value substitution, it will not work when the
 // config needs to be edited post unmarshalling e.g. to set an id value to that of a resource created in a previous step.
 func CreateOrUpdateCrestResourceFromConfigFile(httpMethod string, url string, configFileName string, cookie *http.Cookie) {
-	zap.L().Info("Attempting to create resource using CREST, url: " + httpMethod + ", configFileName: " + configFileName)
+	zap.L().Info("Attempting to create resource using CREST, url: " + url + ", configFileName: " + configFileName)
 
 	var jsonConfig map[string]interface{}
 	err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+configFileName, &common.Config, &jsonConfig)
