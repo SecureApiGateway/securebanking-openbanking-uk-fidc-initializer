@@ -30,8 +30,8 @@
     "redirectionUris": {
       "inherited": false,
       "value": [
-        "https://{{.Hosts.IdentityPlatformFQDN}}/enduser/appAuthHelperRedirect.html",
-        "https://{{.Hosts.IdentityPlatformFQDN}}/enduser/sessionCheck.html",
+        "https://{{.Hosts.IgFQDN}}/am/enduser/appAuthHelperRedirect.html",
+        "https://{{.Hosts.IgFQDN}}/am/enduser/sessionCheck.html",
         "http://localhost:8888/appAuthHelperRedirect.html",
         "http://localhost:8888/sessionCheck.html"
       ]
