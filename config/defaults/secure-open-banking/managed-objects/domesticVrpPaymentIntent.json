@@ -632,7 +632,6 @@
                   "CreationDateTime",
                   "Status",
                   "StatusUpdateDateTime",
-                  "DebtorAccount",
                   "Initiation",
                   "ControlParameters"
                 ]
