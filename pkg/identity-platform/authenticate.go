@@ -1,6 +1,7 @@
 package platform
 
 import (
+	"encoding/json"
 	"fmt"
 	"go.uber.org/zap"
 	"net/http"
@@ -31,7 +32,14 @@ func GetCookieNameFromAm() string {
 //    returns the Session object with embedded session cookie
 func FromUserSession(cookieName string) *common.Session {
 	zap.L().Info("Getting an admin session from Identity Platform")
-	path := fmt.Sprintf("https://%s/am/json/realms/root/authenticate?authIndexType=service&authIndexValue=ldapService", common.Config.Hosts.IdentityPlatformFQDN)
+
+	path := ""
+	platformType := common.Config.Environment.Type
+	if platformType == "FIDC" {
+		path = fmt.Sprintf("https://%s/am/json/realms/root/authenticate", common.Config.Hosts.IdentityPlatformFQDN)
+	} else {
+		path = fmt.Sprintf("https://%s/am/json/realms/root/authenticate?authIndexType=service&authIndexValue=ldapService", common.Config.Hosts.IdentityPlatformFQDN)
+	}
 
 	zap.S().Infow("Path to authenticate the user", "path", path)
 
@@ -43,14 +51,21 @@ func FromUserSession(cookieName string) *common.Session {
 		Post(path)
 
 	common.RaiseForStatus(err, resp.Error(), resp.StatusCode())
+	zap.S().Infof("Got response code %v from %v", resp.StatusCode(), path)
+
+	if platformType == "FIDC" {
+		body := resp.Body()
+		dismiss2faDialog(path, body)
+	}
 
 	var cookieValue = ""
 	for _, cookie := range resp.Cookies() {
-		zap.S().Infow("Cookie found", "cookie", cookie)
+		zap.S().Infow("Cookies found", "cookie", cookie)
 		if cookie.Name == cookieName {
 			cookieValue = cookie.Value
 		}
 	}
+
 	if cookieValue == "" {
 		zap.S().Fatalw("Cannot find cookie",
 			"statusCode", resp.StatusCode(),
@@ -59,6 +74,7 @@ func FromUserSession(cookieName string) *common.Session {
 				 AM will not react well to successive session requests`,
 			"error", resp.Error())
 	}
+
 	c := &http.Cookie{
 		Name:     cookieName,
 		Value:    cookieValue,
@@ -67,8 +83,33 @@ func FromUserSession(cookieName string) *common.Session {
 		Secure:   true,
 		Domain:   common.Config.Hosts.IdentityPlatformFQDN,
 	}
+
 	s := &common.Session{}
 	s.Cookie = c
 	zap.S().Infow("New Identity Platform session created", "cookie", s.Cookie)
 	return s
+}
+
+type AuthIdFromJson struct {
+	AuthId string `json:"authId,omitempty"`
+}
+
+func dismiss2faDialog(requestUri string, body []byte) {
+	bodyString := string(body[:])
+	zap.S().Infof("Dismissing 2FA dialog as authing to FIDC. Auth response body is %v", bodyString)
+
+	var jsonMap map[string]interface{}
+	json.Unmarshal(body, &jsonMap)
+	zap.S().Infof("authId is %v", jsonMap["authId"])
+	//authIdValue := &AuthIdFromJson{}
+	//err := common.Unmarshal(common.Config.Environment.Paths.ConfigAuthHelper+"FidcDismiss2FA.json", authId, authIdValue)
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	//restClient.R().
+	//	SetHeader("Accept", "application/json").
+	//	SetHeader("Accept-API-Version", "resource=2.1, protocol=1.0").
+	//	SetBody()
+
 }
