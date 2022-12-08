@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"secure-banking-uk-initializer/pkg/common"
 	"secure-banking-uk-initializer/pkg/types"
-	"strings"
-	_ "strings"
 )
 
 func GetCookieNameFromAm() string {
@@ -58,7 +56,10 @@ func FromUserSession(cookieName string) *common.Session {
 	zap.S().Infof("Got response code %v from %v", resp.StatusCode(), path)
 
 	if platformType == "FIDC" {
-		dismiss2faDialog(path, resp)
+		resp, err = dismiss2faDialog(path, resp)
+		if err != nil {
+			zap.S().Fatalw("Failed to dimiss 2FA as part of FIDC auth flow", "error", err)
+		}
 	}
 
 	var cookieValue = ""
@@ -97,42 +98,41 @@ type AuthIdFromJson struct {
 	AuthId string `json:"authId,omitempty"`
 }
 
-func dismiss2faDialog(requestUri string, resp *resty.Response) {
+func dismiss2faDialog(requestUri string, resp *resty.Response) (*resty.Response, error) {
 	bodyString := string(resp.Body()[:])
 	zap.S().Infof("Dismissing 2FA dialog as authing to FIDC. Auth response body is %v", bodyString)
 
-	var jsonMap map[string]interface{}
-	json.Unmarshal(resp.Body(), &jsonMap)
-	authIdString := fmt.Sprintf("%q", jsonMap["authId"])
-	zap.S().Infof("authId is %v", authIdString)
+	var responseJson map[string]interface{}
+	json.Unmarshal(resp.Body(), &responseJson)
+	authId := responseJson["authId"]
+	zap.S().Infof("authId to use in 2FA request: %v", authId)
 
 	cookies := resp.Cookies()
 
-	content, erro := ioutil.ReadFile(common.Config.Environment.Paths.ConfigAuthHelper + "FidcDismiss2FA.json")
+	requestTemplate, erro := ioutil.ReadFile(common.Config.Environment.Paths.ConfigAuthHelper + "FidcDismiss2FA.json")
 	if erro != nil {
-		// Handle error here
-		zap.S().Warnf("Failed to read file %v", common.Config.Environment.Paths.ConfigAuthHelper+"FidcDismiss2FA.json")
-	} else {
-		zap.S().Infof("File content is %v", string(content))
+		return nil, erro
 	}
-
-	contentString := string(content)
-	substitutedContentString := strings.ReplaceAll(contentString, "{{authId}}", authIdString)
-	zap.S().Infof("Substituted body of request: %v", substitutedContentString)
+	var requestJson map[string]interface{}
+	json.Unmarshal(requestTemplate, &requestJson)
+	requestJson["authId"] = authId
+	zap.S().Infow("Request json used to dismiss 2FA", "requestJson", requestJson)
 
 	resp, err := restClient.R().
 		SetHeader("Accept", "application/json").
 		SetHeader("Accept-API-Version", "resource=2.1, protocol=1.0").
 		SetHeader("Content-Type", "application/json").
 		SetCookies(cookies).
-		SetBody(substitutedContentString).
+		SetBody(requestJson).
 		Post(requestUri)
 
 	if err != nil {
 		zap.S().Warnf("Failed to dismiss 2FA. ErrorCode %v", resp.StatusCode())
+		return nil, err
 	} else {
 		var jsonMap map[string]interface{}
 		json.Unmarshal(resp.Body(), &jsonMap)
 		zap.S().Infof("Dismissed 2FA - statusCode: %v,  %v", resp.StatusCode(), jsonMap)
+		return resp, nil
 	}
 }
