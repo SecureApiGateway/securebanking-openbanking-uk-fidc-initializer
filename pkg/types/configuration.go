@@ -12,6 +12,7 @@ type Configuration struct {
 	Identity    identity    `mapstructure:"IDENTITY"`
 	Ig          ig          `mapstructure:"IG"`
 	Users       users       `mapstructure:"USERS"`
+	TLS         tls         `mapstructure:"TLS"`
 }
 
 type hosts struct {
@@ -63,4 +64,8 @@ type paths struct {
 type users struct {
 	FrPlatformAdminUsername string `mapstructure:"FR_PLATFORM_ADMIN_USERNAME"`
 	FrPlatformAdminPassword string `mapstructure:"FR_PLATFORM_ADMIN_PASSWORD"`
+}
+
+type tls struct {
+	ClientCertHeaderName string `mapstructure:"CLIENT_CERT_HEADER_NAME"`
 }

@@ -46,4 +46,5 @@ IDENTITY: # Root key for parameter values related with identity platform configu
 USERS: # Root key users to be created or to authenticate and authorize flows
   FR_PLATFORM_ADMIN_USERNAME: amadmin # Identity platform Username with admin grants (must exist previously)
   FR_PLATFORM_ADMIN_PASSWORD: replace-me # Identity platform User password with admin grants (must exist previously)
-
+TLS:
+  CLIENT_CERT_HEADER_NAME: ssl-client-cert # Name of the HTTP header that contains client's TLS cert. Note, nginx will set the cert into the ssl-client-cert header by default
