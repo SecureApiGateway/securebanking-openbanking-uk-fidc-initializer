@@ -52,8 +52,6 @@ IDENTITY: # Root key for parameter values related with identity platform configu
     SECRET_MAPPINGS: # Map one or more secrets to the store
       SECRET_ID: am.services.oauth2.tls.client.cert.authentication
       ALIAS: oauth2-ob-ca-certs # name of the secret in google secrets manager
-
-
 USERS: # Root key users to be created or to authenticate and authorize flows
   FR_PLATFORM_ADMIN_USERNAME: amadmin # Identity platform Username with admin grants (must exist previously)
   FR_PLATFORM_ADMIN_PASSWORD: replace-me # Identity platform User password with admin grants (must exist previously)
