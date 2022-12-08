@@ -3,10 +3,14 @@ package platform
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-resty/resty/v2"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net/http"
 	"secure-banking-uk-initializer/pkg/common"
 	"secure-banking-uk-initializer/pkg/types"
+	"strings"
+	_ "strings"
 )
 
 func GetCookieNameFromAm() string {
@@ -54,8 +58,7 @@ func FromUserSession(cookieName string) *common.Session {
 	zap.S().Infof("Got response code %v from %v", resp.StatusCode(), path)
 
 	if platformType == "FIDC" {
-		body := resp.Body()
-		dismiss2faDialog(path, body)
+		dismiss2faDialog(path, resp)
 	}
 
 	var cookieValue = ""
@@ -94,22 +97,42 @@ type AuthIdFromJson struct {
 	AuthId string `json:"authId,omitempty"`
 }
 
-func dismiss2faDialog(requestUri string, body []byte) {
-	bodyString := string(body[:])
+func dismiss2faDialog(requestUri string, resp *resty.Response) {
+	bodyString := string(resp.Body()[:])
 	zap.S().Infof("Dismissing 2FA dialog as authing to FIDC. Auth response body is %v", bodyString)
 
 	var jsonMap map[string]interface{}
-	json.Unmarshal(body, &jsonMap)
-	zap.S().Infof("authId is %v", jsonMap["authId"])
-	//authIdValue := &AuthIdFromJson{}
-	//err := common.Unmarshal(common.Config.Environment.Paths.ConfigAuthHelper+"FidcDismiss2FA.json", authId, authIdValue)
-	//if err != nil {
-	//	panic(err)
-	//}
+	json.Unmarshal(resp.Body(), &jsonMap)
+	authIdString := fmt.Sprintf("%q", jsonMap["authId"])
+	zap.S().Infof("authId is %v", authIdString)
 
-	//restClient.R().
-	//	SetHeader("Accept", "application/json").
-	//	SetHeader("Accept-API-Version", "resource=2.1, protocol=1.0").
-	//	SetBody()
+	cookies := resp.Cookies()
 
+	content, erro := ioutil.ReadFile(common.Config.Environment.Paths.ConfigAuthHelper + "FidcDismiss2FA.json")
+	if erro != nil {
+		// Handle error here
+		zap.S().Warnf("Failed to read file %v", common.Config.Environment.Paths.ConfigAuthHelper+"FidcDismiss2FA.json")
+	} else {
+		zap.S().Infof("File content is %v", string(content))
+	}
+
+	contentString := string(content)
+	substitutedContentString := strings.ReplaceAll(contentString, "{{authId}}", authIdString)
+	zap.S().Infof("Substituted body of request: %v", substitutedContentString)
+
+	resp, err := restClient.R().
+		SetHeader("Accept", "application/json").
+		SetHeader("Accept-API-Version", "resource=2.1, protocol=1.0").
+		SetHeader("Content-Type", "application/json").
+		SetCookies(cookies).
+		SetBody(substitutedContentString).
+		Post(requestUri)
+
+	if err != nil {
+		zap.S().Warnf("Failed to dismiss 2FA. ErrorCode %v", resp.StatusCode())
+	} else {
+		var jsonMap map[string]interface{}
+		json.Unmarshal(resp.Body(), &jsonMap)
+		zap.S().Infof("Dismissed 2FA - statusCode: %v,  %v", resp.StatusCode(), jsonMap)
+	}
 }
