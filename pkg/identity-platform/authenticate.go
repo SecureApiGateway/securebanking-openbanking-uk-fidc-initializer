@@ -94,10 +94,6 @@ func FromUserSession(cookieName string) *common.Session {
 	return s
 }
 
-type AuthIdFromJson struct {
-	AuthId string `json:"authId,omitempty"`
-}
-
 func dismiss2faDialog(requestUri string, resp *resty.Response) (*resty.Response, error) {
 	bodyString := string(resp.Body()[:])
 	zap.S().Infof("Dismissing 2FA dialog as authing to FIDC. Auth response body is %v", bodyString)
