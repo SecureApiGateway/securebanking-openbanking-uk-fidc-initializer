@@ -15,6 +15,8 @@ import (
 
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+
+	"github.com/go-git/go-git"
 )
 
 // init function is execute before main to initialize the program,
