@@ -2,7 +2,7 @@ function getIdmClientDetails() {
     return {
         "id": "{{ .Identity.IdmClientId }}",
         "secret": "{{ .Identity.IdmClientSecret }}",
-        "endpoint": "http://am/am/oauth2/realms/root/realms/{{ .Identity.AmRealm }}/access_token",
+        "endpoint": "https://{{ .Hosts.IdentityPlatformFQDN }}/am/oauth2/realms/root/realms/{{ .Identity.AmRealm }}/access_token",
         "scope": "fr:idm:*",
         "idmAdminUsername": "{{ .Ig.IgIdmUser }}",
         "idmAdminPassword": "{{ .Ig.IgIdmPassword }}"
@@ -222,7 +222,7 @@ function findIntentType(api) {
 function fetchIntentFromIdm(intentId, intentType) {
     var accessToken = getIdmAccessToken();
     var request = new org.forgerock.http.protocol.Request();
-    var uri ="http://idm/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,OBIntentObject,user/_id,accounts,apiClient/_id"
+    var uri ="https://{{ .Hosts.IdentityPlatformFQDN }}/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,OBIntentObject,user/_id,accounts,apiClient/_id"
 
     logger.message(script_name + ": IDM fetch " + uri)
 
