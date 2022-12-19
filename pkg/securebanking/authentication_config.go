@@ -138,18 +138,11 @@ func createPSD2SecureCustomerAuthenticationTree() {
 // This configures the default user authentication service to use for a particular realm. This service is used as the
 // fallback auth service when a more specific service isn't configured/specified.
 //
-// This is driven off the IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE configuration value
-//
-// For FIDC environments: this configuration is mandatory and will cause the program to exit if it is missing.
-// For CDK environments: configuring this is optional, the CDK comes preconfigured with a sensible default.
+// This is driven off the IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE configuration value, the program will exit with
+// an error if the configuration is missing.
 func ConfigureRealmDefaultUserAuthenticationService() {
 	if common.Config.Identity.DefaultUserAuthenticationService == "" {
-		if common.Config.Environment.Type != "FIDC" {
-			zap.L().Info("No DefaultUserAuthenticationService configuration found, nothing to do")
-			return
-		} else {
-			panic("Configuration: DEFAULT_USER_AUTHENTICATION_SERVICE is required for FIDC environments")
-		}
+		panic("Configuration: DEFAULT_USER_AUTHENTICATION_SERVICE is required")
 	}
 
 	zap.S().Infow("Configuring Default Authentication Service for realm",
