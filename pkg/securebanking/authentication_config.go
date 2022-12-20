@@ -133,3 +133,29 @@ func createPSD2SecureCustomerAuthenticationTree() {
 
 	zap.S().Infow("PSD2SecureCustomerAuthentication tree", "statusCode", status)
 }
+
+// ConfigureRealmDefaultUserAuthenticationService
+// This configures the default user authentication service to use for a particular realm. This service is used as the
+// fallback auth service when a more specific service isn't configured/specified.
+//
+// This is driven off the IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE configuration value, the program will exit with
+// an error if the configuration is missing.
+func ConfigureRealmDefaultUserAuthenticationService() {
+	if common.Config.Identity.DefaultUserAuthenticationService == "" {
+		panic("Configuration: DEFAULT_USER_AUTHENTICATION_SERVICE is required")
+	}
+
+	zap.S().Infow("Configuring Default Authentication Service for realm",
+		"realm", common.Config.Identity.AmRealm, "authService", common.Config.Identity.DefaultUserAuthenticationService)
+	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/authentication"
+
+	status := httprest.Client.Put(path, map[string]string{
+		"orgConfig": common.Config.Identity.DefaultUserAuthenticationService,
+	}, map[string]string{
+		"Accept":             "application/json",
+		"Content-Type":       "application/json",
+		"Accept-Api-Version": "protocol=2.0, resource=1.0",
+	})
+
+	zap.S().Infow("Configure Default Authentication Service response", "statusCode", status)
+}

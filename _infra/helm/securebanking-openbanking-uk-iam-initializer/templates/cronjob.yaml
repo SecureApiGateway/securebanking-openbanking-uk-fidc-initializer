@@ -52,6 +52,12 @@ spec:
                     configMapKeyRef:
                       name: securebanking-platform-config
                       key: RCS_UI_FQDN
+                - name: IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: securebanking-platform-config
+                      key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
+                      optional: true
                 {{- if eq .Values.environment.fr_platform.type "FIDC" }}
                 - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
                   valueFrom:

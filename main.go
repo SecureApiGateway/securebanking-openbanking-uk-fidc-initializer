@@ -83,6 +83,9 @@ func main() {
 		securebanking.ConfigureAmPlatformService(session.Cookie)
 	}
 
+	fmt.Println("Attempting to configure Realm Default User Authentication Service")
+	securebanking.ConfigureRealmDefaultUserAuthenticationService()
+
 	fmt.Println("Attempting to configure Google Secret Store(s)")
 	securebanking.ConfigureGoogleSecretStores(session.Cookie)
 
