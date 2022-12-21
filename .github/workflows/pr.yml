@@ -21,10 +21,16 @@ jobs:
       - name: Checkout init config repo
         uses: actions/checkout@v3
         with:
-          repository: SecureApiGateway/sapig-openbanking-uk-fr-platform-config
-          path: config
+          repository: SecureApiGateway/fr-platform-config
+          path: config-repo
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           ref: master
+      
+      - name: Move config files
+        run: |
+          mkdir config
+          mv config-repo/config/* config
+          ls -la config
 
       - name: Run Tests
         run: |
