@@ -28,7 +28,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          ls -la
+          ls -la config
 #          make test-ci
 
 #      - uses: google-github-actions/auth@v0
