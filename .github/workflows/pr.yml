@@ -14,37 +14,47 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Checkout init config repo
+        uses: actions/checkout@v3
+        with:
+          repository: SecureApiGateway/sapig-openbanking-uk-fr-platform-config
+          path: config
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          ref: master
 
       - name: Run Tests
         run: |
-          make test-ci
+          ls -la
+#          make test-ci
 
-      - uses: google-github-actions/auth@v0
-        with:
-          credentials_json: ${{ secrets.GCR_KEY }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0
+#      - uses: google-github-actions/auth@v0
+#        with:
+#          credentials_json: ${{ secrets.GCR_KEY }}
+#
+#      - name: Set up Cloud SDK
+#        uses: google-github-actions/setup-gcloud@v0
 
         # Configure docker to use the gcloud command-line tool as a credential helper
-      - run: |
-          gcloud auth configure-docker
-
-      - name: docker build
-        run: |
-          make docker tag=${{ env.PR_NUMBER }}
-
-      - name: Create lowercase Github Username
-        id: toLowerCase
-        run: echo "GITHUB_USER=$(echo ${{github.actor}} | tr '[:upper:]' '[:lower:]')" >> ${GITHUB_ENV}
-
-      - name: 'Deploy Service'
-        uses: codefresh-io/codefresh-pipeline-runner@master
-        with:
-          args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=iamInitialiser -v SERVICE_NAME=iam-initialiser -v ENVIRONMENT=${{ env.GITHUB_USER }} -v BRANCH=${{ github.head_ref }}'
-        env:
-          PIPELINE_NAME: 'ForgeCloud/sbat-infra/service-build'
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          TRIGGER_NAME: github-actions-trigger-init
-        id: run-pipeline
+#      - run: |
+#          gcloud auth configure-docker
+#
+#      - name: docker build
+#        run: |
+#          make docker tag=${{ env.PR_NUMBER }}
+#
+#      - name: Create lowercase Github Username
+#        id: toLowerCase
+#        run: echo "GITHUB_USER=$(echo ${{github.actor}} | tr '[:upper:]' '[:lower:]')" >> ${GITHUB_ENV}
+#
+#      - name: 'Deploy Service'
+#        uses: codefresh-io/codefresh-pipeline-runner@master
+#        with:
+#          args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=iamInitialiser -v SERVICE_NAME=iam-initialiser -v ENVIRONMENT=${{ env.GITHUB_USER }} -v BRANCH=${{ github.head_ref }}'
+#        env:
+#          PIPELINE_NAME: 'ForgeCloud/sbat-infra/service-build'
+#          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+#          TRIGGER_NAME: github-actions-trigger-init
+#        id: run-pipeline
