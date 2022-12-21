@@ -30,6 +30,7 @@ jobs:
         run: |
           mkdir config
           mv config-repo/config/* config
+          rm -rf config-repo
 
       - name: Run Tests
         run: |
