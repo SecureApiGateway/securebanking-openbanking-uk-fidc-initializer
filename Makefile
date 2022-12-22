@@ -2,7 +2,8 @@ service := secureopenbanking-uk-iam-initializer
 gcr-repo := sbat-gcr-develop
 binary-name := initialize
 github-tag := v1.0.0
-config-github-sha := e99bfc44ff4d66e70eef1be61363887d383a8aa7
+githubfile := .config-git-ref
+config-github-sha := $(shell cat ${githubfile})
 
 define clone_config_tag
 	if [ -d "config-repo" ]; then rm config-repo -rf; fi
