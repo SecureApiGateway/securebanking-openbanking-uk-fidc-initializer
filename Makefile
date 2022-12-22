@@ -1,9 +1,6 @@
 service := secureopenbanking-uk-iam-initializer
 gcr-repo := sbat-gcr-develop
 binary-name := initialize
-github-tag := v1.0.0
-githubfile := .config-git-ref
-config-github-sha := $(shell cat ${githubfile})
 
 define clone_config_tag
 	if [ -d "config-repo" ]; then rm config-repo -rf; fi
@@ -14,24 +11,17 @@ define clone_config_tag
 	rm -rf config-repo
 endef
 
-define clone_config
-	if [ -d "config-repo" ]; then rm config-repo -rf; fi
-	if [ -d "config" ]; then rm config -rf; fi
-    git clone git@github.com:SecureApiGateway/fr-platform-config.git config-repo
-	cd config-repo && git checkout ${config-github-sha}
-	mkdir config
-	mv config-repo/config/* config
-	rm -rf config-repo
-endef
 
 .PHONY: all
 all: mod build
 
+clone_config:
+	./clone_config_repo.sh
+	
 mod:
 	go mod download
 
-build: clean mod
-	$(call clone_config)
+build: clean mod clone_config
 	go build -o ${binary-name}
 
 test:
