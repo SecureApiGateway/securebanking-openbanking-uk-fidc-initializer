@@ -27,6 +27,8 @@ go build -o initialize
 
 This will build an executable called `initialize` 
 
+NOTE: With the recent split of the config from the initializer code to [fr-platform-config](https://github.com/SecureApiGateway/fr-platform-config) the build command in the make file will pull a version of the repo, the version is defined in the makefile variables, so that it is possible to make changes to the master branch for testing without breaking anything. The SHA will need updating once changes have been made and are tested, in both the [makefile](https://github.com/SecureApiGateway/securebanking-openbanking-uk-fidc-initializer/blob/master/Makefile) and the [github action](https://github.com/SecureApiGateway/securebanking-openbanking-uk-fidc-initializer/blob/master/.github/workflows/pr.yml)
+
 ### Build a docker image
 
 A Dockerfile is provided that will build a docker image based on the popular Alpine linux image. This can then be deployed into your SBAT environment as a Job and used to initialize your ForgeRock platform instance. 

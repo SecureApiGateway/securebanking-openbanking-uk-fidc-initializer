@@ -9,6 +9,7 @@ on:
 env:
   SERVICE_NAME: securebanking-openbanking-uk-fidc-inilializer
   PR_NUMBER: pr-${{ github.event.number }}
+  CONFIG_GITHUB_SHA: e99bfc44ff4d66e70eef1be61363887d383a8aa7
 
 jobs:
   build:
@@ -18,19 +19,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-#      - name: Checkout init config repo
-#        uses: actions/checkout@v3
-#        with:
-#          repository: SecureApiGateway/fr-platform-config
-#          path: config-repo
-#          token: ${{ secrets.MY_GITHUB_TOKEN }}
-#          ref: master
-#      
-#      - name: Move config files
-#        run: |
-#          mkdir config
-#          mv config-repo/config/* config
-#          rm -rf config-repo
+      - name: Checkout init config repo
+        uses: actions/checkout@v3
+        with:
+          repository: SecureApiGateway/fr-platform-config
+          path: config-repo
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          ref: ${{ env.CONFIG_GITHUB_SHA }}
+      
+      - name: Move config files
+        run: |
+          mkdir config
+          mv config-repo/config/* config
+          rm -rf config-repo
 
       - name: Run Tests
         run: |
