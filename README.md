@@ -27,7 +27,7 @@ go build -o initialize
 
 This will build an executable called `initialize` 
 
-NOTE: With the recent split of the config from the initializer code to [fr-platform-config](https://github.com/SecureApiGateway/fr-platform-config) the build command in the make file will pull a version of the repo, the version is defined in the [.congif-git-ref](url to follow), so that it is possible to make changes to the master branch for testing without breaking anything. The SHA will need updating once changes have been made and are tested
+NOTE: With the recent split of the config from the initializer code to [fr-platform-config](https://github.com/SecureApiGateway/fr-platform-config) the build command in the make file will pull a version of the repo, the version is defined in the [.congif-git-ref](https://github.com/SecureApiGateway/securebanking-openbanking-uk-fidc-initializer/blob/master/.config-git-ref), so that it is possible to make changes to the master branch for testing without breaking anything. The SHA will need updating once changes have been made and are tested
 
 ### Build a docker image
 
