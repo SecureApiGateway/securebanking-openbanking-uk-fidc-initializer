@@ -1,3 +1,9 @@
+# Clone line can be used in future if versioning is put in place
+# git clone --depth 1 --branch ${github-tag} git@github.com:SecureApiGateway/fr-platform-config.git config-repo
+
+#Script for cloning a version of the fr-platform-config repo, version to clone is saved in .config-git-ref. Files are then moved to a desired folder
+
+
 if [ -d "config-repo" ]; then 
     rm config-repo -rf
 fi
