@@ -2,6 +2,15 @@ service := secureopenbanking-uk-iam-initializer
 gcr-repo := sbat-gcr-develop
 binary-name := initialize
 
+define clone_config
+	if [ -d "config-repo" ]; then rm config-repo -rf; fi
+	if [ -d "config" ]; then rm config -rf; fi
+	git clone git@github.com:SecureApiGateway/fr-platform-config.git config-repo
+	mkdir config
+	mv config-repo/config/* config
+	rm -rf config-repo
+endef
+
 .PHONY: all
 all: mod build
 
@@ -9,12 +18,14 @@ mod:
 	go mod download
 
 build: clean mod
+	$(call clone_config)
 	go build -o ${binary-name}
 
 test:
 	go test ./...
 
 test-ci: mod
+	$(call clone_config)
 	$(eval localPath=$(shell pwd))
 	curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | bash
 	PATH=$(PATH):${localPath}/pact/bin go test ./...
