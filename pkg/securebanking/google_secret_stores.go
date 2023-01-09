@@ -23,7 +23,10 @@ func ConfigureGoogleSecretStores(cookie *http.Cookie) {
 		return
 	}
 	for _, store := range stores {
-		configureGoogleSecretStore(store, cookie)
+		// FIDC environments come with pre-existing GoogleSecretStore which cannot be edited, only map secrets in this case
+		if common.Config.Environment.Type != "FIDC" {
+			configureGoogleSecretStore(store, cookie)
+		}
 		configSecretMappings(store, cookie)
 	}
 }
