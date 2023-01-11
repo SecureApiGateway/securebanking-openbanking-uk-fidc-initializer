@@ -9,29 +9,41 @@ import (
 	"secure-banking-uk-initializer/pkg/types"
 )
 
-// ConfigureGoogleSecretStores Configures Google Secret Stores in AM if defined in the config
+// ConfigureGoogleSecretStore Configures Google Secret Store in AM if "GOOGLE_SECRET_STORE_NAME" is defined in config
 //
-// This function processes the "GOOGLE_SECRET_STORES" config block, this is treated as an array and can
-// be used to create multiple stores.
-//
-// Once the store has been created then one or more secrets may be mapped to it using the "SECRET_MAPPINGS" config block
-// which is also treated as an array
-func ConfigureGoogleSecretStores(cookie *http.Cookie) {
-	stores := common.Config.Identity.GoogleSecretStores
-	if stores == nil || len(stores) == 0 {
+// For CDK environments: the store will be created if it does not exist
+// For all environments: secrets will be mapped to the store if they are defined in config
+func ConfigureGoogleSecretStore(cookie *http.Cookie) {
+	storeName := common.Config.Identity.GoogleSecretStoreName
+	if storeName == "" {
 		zap.S().Infow("No Google Secret Stores found in config, nothing to do.")
 		return
 	}
-	for _, store := range stores {
-		// FIDC environments come with pre-existing GoogleSecretStore which cannot be edited, only map secrets in this case
-		if common.Config.Environment.Type != "FIDC" {
-			configureGoogleSecretStore(store, cookie)
+	if common.Config.Environment.Type == "CDK" {
+		configureCdkGoogleSecretStore(cookie, storeName)
+	}
+
+	oAuth2CaCertsSecretName := common.Config.Identity.GoogleSecretStoreOAuth2CaCertsSecretName
+	if oAuth2CaCertsSecretName != "" {
+		oAuth2Secret := types.SecretMapping{
+			SecretId: "am.services.oauth2.tls.client.cert.authentication",
+			Alias:    oAuth2CaCertsSecretName,
 		}
-		configSecretMappings(store, cookie)
+		configSecretMappings(storeName, []types.SecretMapping{oAuth2Secret}, cookie)
 	}
 }
 
-func configureGoogleSecretStore(store types.GoogleSecretStore, cookie *http.Cookie) {
+func configureCdkGoogleSecretStore(cookie *http.Cookie, storeName string) {
+	project := common.Config.Identity.GoogleSecretStoreProject
+	if project == "" {
+		zap.S().Fatal("GOOGLE_SECRET_STORE_PROJECT must be configured")
+	}
+	store := types.GoogleSecretStore{
+		Name: storeName, ServiceAccount: "default",
+		Project:               project,
+		SecretFormat:          "PEM",
+		ExpiryDurationSeconds: 3600,
+	}
 	createStoreUrl, storeRequest := buildCreateStoreRequest(store)
 	zap.S().Infow("Attempting to configure Google Secret Store", "store", store,
 		"requestUrl", createStoreUrl, "requestJson", storeRequest)
@@ -51,10 +63,10 @@ func buildCreateStoreRequest(store types.GoogleSecretStore) (string, map[string]
 	return createStoreUrl, requestBody
 }
 
-func configSecretMappings(store types.GoogleSecretStore, cookie *http.Cookie) {
-	zap.S().Infow("Attempting to map secrets to store", "store", store)
-	for _, mapping := range store.SecretMappings {
-		createMappingUrl, mappingRequest := buildSecretMappingRequest(store.Name, mapping)
+func configSecretMappings(storeName string, secrets []types.SecretMapping, cookie *http.Cookie) {
+	zap.S().Infow("Attempting to map secrets to store", "store", storeName)
+	for _, secret := range secrets {
+		createMappingUrl, mappingRequest := buildSecretMappingRequest(storeName, secret)
 		CreateOrUpdateCrestResource("PUT", createMappingUrl, mappingRequest, cookie)
 	}
 }

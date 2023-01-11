@@ -86,8 +86,8 @@ func main() {
 	fmt.Println("Attempting to configure Realm Default User Authentication Service")
 	securebanking.ConfigureRealmDefaultUserAuthenticationService()
 
-	fmt.Println("Attempting to configure Google Secret Store(s)")
-	securebanking.ConfigureGoogleSecretStores(session.Cookie)
+	fmt.Println("Attempting to configure Google Secret Store")
+	securebanking.ConfigureGoogleSecretStore(session.Cookie)
 
 	fmt.Println("Attempt PSD2 authentication trees initialization...")
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
