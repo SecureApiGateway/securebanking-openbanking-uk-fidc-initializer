@@ -58,7 +58,7 @@ spec:
                       name: securebanking-platform-config
                       key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
                       optional: true
-                - name: IDENTITY.GOOGLE_SECRET_STORES_NAME
+                - name: IDENTITY.GOOGLE_SECRET_STORE_NAME
                   valueFrom:
                     configMapKeyRef:
                       name: securebanking-platform-config
