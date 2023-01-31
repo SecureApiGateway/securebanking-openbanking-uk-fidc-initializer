@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"secure-banking-uk-initializer/pkg/common"
 	"secure-banking-uk-initializer/pkg/httprest"
 	"secure-banking-uk-initializer/pkg/types"
-
-	"secure-banking-uk-initializer/pkg/common"
 
 	"go.uber.org/zap"
 )
@@ -20,7 +19,16 @@ func CreateSecureBankingRemoteConsentService() {
 		return
 	}
 	zap.L().Info("Creating remote consent service")
-	rcsJwks := CreateRcsJwks(common.Config.Identity.RemoteConsentSigningPublicKey, common.Config.Identity.RemoteConsentSigningKeyId)
+	signingPublicKey := common.Config.Identity.RemoteConsentSigningPublicKey
+	if signingPublicKey == "" {
+		zap.S().Fatal("RemoteConsentSigningPublicKey must be configured")
+	}
+	signingKeyId := common.Config.Identity.RemoteConsentSigningKeyId
+	if signingKeyId == "" {
+		zap.S().Fatal("RemoteConsentSigningKeyId must be configured")
+	}
+	rcsJwks := CreateRcsJwks(signingPublicKey, signingKeyId)
+
 	rc := &types.RemoteConsent{
 		RemoteConsentRequestEncryptionAlgorithm: types.InheritedValueString{
 			Inherited: false,

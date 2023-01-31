@@ -15,10 +15,9 @@ func CreateRcsJwks(rsaPublicKey string, keyId string) []byte {
 		panic(err)
 	}
 	jwk := jose.JSONWebKey{
-		KeyID:     keyId,
-		Key:       rsaPubKey,
-		Algorithm: "RSA",
-		Use:       "sig",
+		KeyID: keyId,
+		Key:   rsaPubKey,
+		Use:   "sig",
 	}
 
 	// API provides no way to build a JWKS and marshall it, so we need to do that manually
