@@ -87,7 +87,22 @@ spec:
                     secretKeyRef:
                       name: am-env-secrets
                       key: AM_PASSWORDS_AMADMIN_CLEAR       
-                {{ end }}                
+                {{ end }}
+                - name: IDENTITY.REMOTE_CONSENT_SIGNING_PUBLIC_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: rcs-signing
+                      key: rcs-signing.pem
+                - name: IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: securebanking-platform-config
+                      key: RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID
+                - name: IDENTITY.REMOTE_CONSENT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: securebanking-platform-config
+                      key: RCS_CONSENT_RESPONSE_JWT_ISSUER
               command: [ "/bin/sh", "-c" ]
               args:
                 - |
