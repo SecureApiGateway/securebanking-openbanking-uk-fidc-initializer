@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-jose/go-jose/v3"
+	"go.uber.org/zap"
 )
 
 func CreateRcsJwks(rsaPublicKey string, keyId string) []byte {
+	zap.S().Infow("Creating JWKS", "rsaPublicKey", rsaPublicKey, "keyId", keyId)
+
 	rsaPubKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(rsaPublicKey))
 	if err != nil {
 		panic(err)
