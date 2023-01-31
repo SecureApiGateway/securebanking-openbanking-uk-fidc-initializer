@@ -114,5 +114,6 @@ spec:
                   echo "IDM not ready"
                   sleep 10
                   done
+                  sleep 100
                   ./initialize
           restartPolicy: OnFailure
