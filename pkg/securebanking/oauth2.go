@@ -15,12 +15,12 @@ import (
 
 func CreateSecureBankingRemoteConsentService() {
 	remoteConsentId := common.Config.Identity.RemoteConsentId
-	rcsJwks := CreateRcsJwks(common.Config.Identity.RemoteConsentSigningPublicKey, common.Config.Identity.RemoteConsentSigningKeyId)
 	if remoteConsentExists(remoteConsentId) {
 		zap.L().Info("Remote consent exists. skipping")
 		return
 	}
 	zap.L().Info("Creating remote consent service")
+	rcsJwks := CreateRcsJwks(common.Config.Identity.RemoteConsentSigningPublicKey, common.Config.Identity.RemoteConsentSigningKeyId)
 	rc := &types.RemoteConsent{
 		RemoteConsentRequestEncryptionAlgorithm: types.InheritedValueString{
 			Inherited: false,
