@@ -52,7 +52,7 @@ func CreateSecureBankingRemoteConsentService() {
 		},
 		JwkSet: types.JwkSet{
 			Inherited: false,
-			Value:     string(rcsJwks),
+			Value:     rcsJwks,
 		},
 		JwkStoreCacheMissCacheTime: types.InheritedValueInt{
 			Inherited: false,

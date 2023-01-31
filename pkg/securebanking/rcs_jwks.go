@@ -7,7 +7,9 @@ import (
 	"go.uber.org/zap"
 )
 
-func CreateRcsJwks(rsaPublicKey string, keyId string) []byte {
+// CreateRcsJwks Produces a JWK Set representing the RCS signing public key
+// this can be used to configured AM to trust JWTs signed by RCS.
+func CreateRcsJwks(rsaPublicKey string, keyId string) string {
 	zap.S().Infow("Creating JWKS", "rsaPublicKey", rsaPublicKey, "keyId", keyId)
 
 	rsaPubKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(rsaPublicKey))
@@ -44,5 +46,7 @@ func CreateRcsJwks(rsaPublicKey string, keyId string) []byte {
 	if err != nil {
 		panic(err)
 	}
-	return jwksMarshalled
+	jwksStr := string(jwksMarshalled)
+	zap.L().Info("RCS JWKS: " + jwksStr)
+	return jwksStr
 }
