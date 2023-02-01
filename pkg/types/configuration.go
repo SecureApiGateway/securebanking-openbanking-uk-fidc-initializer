@@ -31,6 +31,8 @@ type identity struct {
 	IdmClientSecret                          string `mapstructure:"IDM_CLIENT_SECRET"`
 	PolicyClientSecret                       string `mapstructure:"POLICY_CLIENT_SECRET"`
 	RemoteConsentId                          string `mapstructure:"REMOTE_CONSENT_ID"`
+	RemoteConsentSigningPublicKey            string `mapstructure:"REMOTE_CONSENT_SIGNING_PUBLIC_KEY"`
+	RemoteConsentSigningKeyId                string `mapstructure:"REMOTE_CONSENT_SIGNING_KEY_ID"`
 	ObriSoftwarePublisherAgent               string `mapstructure:"OBRI_SOFTWARE_PUBLISHER_AGENT_NAME"`
 	TestSoftwarePublisherAgent               string `mapstructure:"TEST_SOFTWARE_PUBLISHER_AGENT_NAME"`
 	ServiceAccountPolicyUser                 string `mapstructure:"SERVICE_ACCOUNT_POLICY_USER"`
