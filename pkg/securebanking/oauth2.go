@@ -80,7 +80,7 @@ func CreateSecureBankingRemoteConsentService() {
 		},
 		RequestTimeLimit: types.InheritedValueInt{
 			Inherited: false,
-			Value:     0,
+			Value:     common.Config.Identity.RemoteConsentTimeLimitSeconds,
 		},
 		JwksURI: types.InheritedValueString{
 			Inherited: false,

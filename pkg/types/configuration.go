@@ -33,6 +33,7 @@ type identity struct {
 	RemoteConsentId                          string `mapstructure:"REMOTE_CONSENT_ID"`
 	RemoteConsentSigningPublicKey            string `mapstructure:"REMOTE_CONSENT_SIGNING_PUBLIC_KEY"`
 	RemoteConsentSigningKeyId                string `mapstructure:"REMOTE_CONSENT_SIGNING_KEY_ID"`
+	RemoteConsentTimeLimitSeconds            int    `mapstructure:"REMOTE_CONSENT_TIME_LIMIT_SECONDS"`
 	ObriSoftwarePublisherAgent               string `mapstructure:"OBRI_SOFTWARE_PUBLISHER_AGENT_NAME"`
 	TestSoftwarePublisherAgent               string `mapstructure:"TEST_SOFTWARE_PUBLISHER_AGENT_NAME"`
 	ServiceAccountPolicyUser                 string `mapstructure:"SERVICE_ACCOUNT_POLICY_USER"`
