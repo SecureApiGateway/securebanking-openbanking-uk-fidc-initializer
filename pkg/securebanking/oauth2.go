@@ -64,7 +64,7 @@ func CreateSecureBankingRemoteConsentService() {
 		},
 		RemoteConsentRedirectURL: types.InheritedValueString{
 			Inherited: false,
-			Value:     fmt.Sprintf("https://%s", common.Config.Hosts.RcsUiFQDN),
+			Value:     fmt.Sprintf("https://%s/rcs/consent", common.Config.Hosts.IgFQDN),
 		},
 		RemoteConsentRequestEncryptionEnabled: types.InheritedValueBool{
 			Inherited: false,
