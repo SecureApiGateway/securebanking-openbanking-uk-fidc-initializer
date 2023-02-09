@@ -18,7 +18,6 @@ type Configuration struct {
 type hosts struct {
 	BaseFQDN             string   `mapstructure:"BASE_FQDN"`
 	WildcardFQDN         string   `mapstructure:"WILDCARD_FQDN"`
-	RcsUiFQDN            string   `mapstructure:"RCS_UI_FQDN"`
 	IgFQDN               string   `mapstructure:"IG_FQDN"`
 	IdentityPlatformFQDN string   `mapstructure:"IDENTITY_PLATFORM_FQDN"`
 	Scheme               string   `mapstructure:"SCHEME"`
