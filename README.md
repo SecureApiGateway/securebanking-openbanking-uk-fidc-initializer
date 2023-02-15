@@ -162,8 +162,6 @@ There are a variables used before load the configuration file and these variable
 |--------------------------------|--------------------------------|----------------------------------------------|
 | `HOSTS.IDENTITY_PLATFORM_FQDN` | iam.dev.forgerock.financial    | Identity platform Full Qualified Domain Name |
 | `HOSTS.IG_FQDN`                | obdemo.dev.forgerock.financial | Ig Full Qualified Domain Name                |
-| `HOSTS.RCS_FQDN`               | rcs.dev.forgerock.financial    | RSC Full Qualified Domain Name               |
-| `HOSTS.RS_FQDN`                | rs.dev.forgerock.financial     | RS Full Qualified Domain Name                |
 | `HOSTS.SCHEME`                 | https                          | URI scheme, Syntax part of a generic URI     |
 </details>
 
