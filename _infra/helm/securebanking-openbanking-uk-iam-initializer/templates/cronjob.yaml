@@ -98,6 +98,36 @@ spec:
                     configMapKeyRef:
                       name: securebanking-platform-config
                       key: RCS_CONSENT_RESPONSE_JWT_ISSUER
+                - name: IG.IG_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_CLIENT_ID
+                - name: IG.IG_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_CLIENT_SECRET
+                - name: IG.IG_IDM_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_IDM_USER
+                - name: IG.IG_IDM_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_IDM_PASSWORD
+                - name: IG.IG_AGENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_AGENT_ID
+                - name: IG.IG_AGENT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: openig-secrets-env
+                      key: IG_AGENT_PASSWORD
               command: [ "/bin/sh", "-c" ]
               args:
                 - |
