@@ -42,6 +42,11 @@ spec:
                     configMapKeyRef:
                       name: securebanking-platform-config
                       key: IG_FQDN
+                - name: HOSTS.MTLS_FQDN
+                  valueFrom:
+                    configMapKeyRef:
+                      name: securebanking-platform-config
+                      key: MTLS_FQDN
                 - name: HOSTS.IDENTITY_PLATFORM_FQDN
                   valueFrom:
                     configMapKeyRef:
