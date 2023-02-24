@@ -95,6 +95,8 @@ func main() {
 	securebanking.CreateSecureBankingRemoteConsentService()
 	fmt.Println("Attempt to create OBRI software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentOBRI()
+	fmt.Println("Attempt to create OB Test Directory software publisher agent...")
+	securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 	fmt.Println("Attempt to create Test software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentTestPublisher()
 	fmt.Println("Attempt to create OIDC claims script..")

@@ -169,6 +169,52 @@ func CreateSoftwarePublisherAgentOBRI() {
 	zap.S().Infow("Software Publisher Agent", "statusCode", s)
 }
 
+func CreateSoftwarePublisherAgentOBTestDirectory() {
+	if softwarePublisherAgentExists(common.Config.Identity.ObriSoftwarePublisherAgent) {
+		zap.L().Info("Skipping creation of Software publisher agent")
+		return
+	}
+
+	zap.L().Info("Creating OB Test Directory software publisher agent")
+	pa := types.PublisherAgent{
+		PublicKeyLocation: types.InheritedValueString{
+			Inherited: false,
+			Value:     "jwks_uri",
+		},
+		JwksCacheTimeout: types.InheritedValueInt{
+			Inherited: false,
+			Value:     3600000,
+		},
+		SoftwareStatementSigningAlgorithm: types.InheritedValueString{
+			Inherited: false,
+			Value:     "PS256",
+		},
+		JwkSet: types.JwkSet{
+			Inherited: false,
+		},
+		Issuer: types.InheritedValueString{
+			Inherited: false,
+			Value:     "OpenBanking Ltd",
+		},
+		JwkStoreCacheMissCacheTime: types.InheritedValueInt{
+			Inherited: false,
+			Value:     60000,
+		},
+		JwksURI: types.InheritedValueString{
+			Inherited: false,
+			Value:     "https://sapig." + common.Config.Hosts.IgFQDN + "/jwkms/jwksproxy/keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
+		},
+	}
+	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.ObriSoftwarePublisherAgent
+	s := httprest.Client.Put(path, pa, map[string]string{
+		"Accept":             "*/*",
+		"Connection":         "keep-alive",
+		"Accept-API-Version": "protocol=2.0,resource=1.0",
+	})
+
+	zap.S().Infow("Software Publisher Agent", "statusCode", s)
+}
+
 func CreateSoftwarePublisherAgentTestPublisher() {
 	if softwarePublisherAgentExists(common.Config.Identity.TestSoftwarePublisherAgent) {
 		zap.L().Info("Skipping creation of Software publisher agent")
