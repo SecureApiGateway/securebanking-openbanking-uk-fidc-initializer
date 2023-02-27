@@ -175,7 +175,7 @@ func CreateSoftwarePublisherAgentOBTestDirectory() {
 		return
 	}
 
-	zap.S().Infof("Creating OB Test Directory software publisher agent '%s'", common.Config.Identity.ObTestDirectorySoftwarePublisherAgent )
+	zap.S().Infof("Creating OB Test Directory software publisher agent '%s'", common.Config.Identity.ObTestDirectorySoftwarePublisherAgent)
 	pa := types.PublisherAgent{
 		PublicKeyLocation: types.InheritedValueString{
 			Inherited: false,
@@ -202,7 +202,7 @@ func CreateSoftwarePublisherAgentOBTestDirectory() {
 		},
 		JwksURI: types.InheritedValueString{
 			Inherited: false,
-			Value:     "https://sapig." + common.Config.Hosts.IgFQDN + "/jwkms/jwksproxy/keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
+			Value:     "https://" + common.Config.Hosts.IgFQDN + "/jwkms/jwksproxy/keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
 		},
 	}
 	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.ObTestDirectorySoftwarePublisherAgent
@@ -216,12 +216,12 @@ func CreateSoftwarePublisherAgentOBTestDirectory() {
 }
 
 func CreateSoftwarePublisherAgentTestPublisher() {
-	if softwarePublisherAgentExists(common.Config.Identity.TestSoftwarePublisherAgent) {
+	if softwarePublisherAgentExists(common.Config.Identity.SecureApiGatewayDevTrustedDirectory) {
 		zap.L().Info("Skipping creation of Software publisher agent")
 		return
 	}
 
-	zap.L().Info("Creating software publisher agent")
+	zap.S().Infof("Creating software publisher agent '%s'", common.Config.Identity.SecureApiGatewayDevTrustedDirectory)
 	pa := types.PublisherAgent{
 		Userpassword: common.Config.Ig.IgSsaSecret,
 		PublicKeyLocation: types.InheritedValueString{
@@ -234,7 +234,7 @@ func CreateSoftwarePublisherAgentTestPublisher() {
 		},
 		SoftwareStatementSigningAlgorithm: types.InheritedValueString{
 			Inherited: false,
-			Value:     "HS256",
+			Value:     "PS256",
 		},
 		JwkSet: types.JwkSet{
 			Inherited: false,
@@ -249,9 +249,10 @@ func CreateSoftwarePublisherAgentTestPublisher() {
 		},
 		JwksURI: types.InheritedValueString{
 			Inherited: false,
+			Value:     "https://" + common.Config.Hosts.IgFQDN + "/jwkms/testdirectory/jwks",
 		},
 	}
-	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.TestSoftwarePublisherAgent
+	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.SecureApiGatewayDevTrustedDirectory
 	s := httprest.Client.Put(path, pa, map[string]string{
 		"Accept":             "*/*",
 		"Connection":         "keep-alive",
