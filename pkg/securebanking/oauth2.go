@@ -170,12 +170,12 @@ func CreateSoftwarePublisherAgentOBRI() {
 }
 
 func CreateSoftwarePublisherAgentOBTestDirectory() {
-	if softwarePublisherAgentExists(common.Config.Identity.ObriSoftwarePublisherAgent) {
+	if softwarePublisherAgentExists(common.Config.Identity.ObTestDirectorySoftwarePublisherAgent) {
 		zap.L().Info("Skipping creation of Software publisher agent")
 		return
 	}
 
-	zap.L().Info("Creating OB Test Directory software publisher agent")
+	zap.S().Infof("Creating OB Test Directory software publisher agent '%s'", common.Config.Identity.ObTestDirectorySoftwarePublisherAgent )
 	pa := types.PublisherAgent{
 		PublicKeyLocation: types.InheritedValueString{
 			Inherited: false,
@@ -205,7 +205,7 @@ func CreateSoftwarePublisherAgentOBTestDirectory() {
 			Value:     "https://sapig." + common.Config.Hosts.IgFQDN + "/jwkms/jwksproxy/keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
 		},
 	}
-	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.ObriSoftwarePublisherAgent
+	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.ObTestDirectorySoftwarePublisherAgent
 	s := httprest.Client.Put(path, pa, map[string]string{
 		"Accept":             "*/*",
 		"Connection":         "keep-alive",
