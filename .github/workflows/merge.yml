@@ -18,20 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Checkout init config repo
-        uses: actions/checkout@v3
-        with:
-          repository: SecureApiGateway/fr-platform-config
-          path: config-repo
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
-          ref: master
-      
-      - name: Move config files
-        run: |
-          mkdir config
-          mv config-repo/config/* config
-          rm -rf config-repo
-
       - name: Run Tests
         run: |
           make test-ci

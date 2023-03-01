@@ -5,7 +5,7 @@ logs/
 pact/
 .idea/
 temp
-config/*
+config/viper/*
 !viper-default-configuration.yaml
 BohoDockerfile
 makeAndRunBohoDockerImage.sh

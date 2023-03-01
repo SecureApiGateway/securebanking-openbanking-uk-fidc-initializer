@@ -1,0 +1,61 @@
+---
+ENVIRONMENT: # Root key to define the environment program properties
+  VIPER_CONFIG: default # The profile that contains the configuration to be overwritten from system env
+  VERBOSE: false # Log level (verbose=true means debug mode)
+  # STRICT: true = strict mode on, otherwise off, will exit the program if the go resty returns an error in STRICT mode enabled,
+  # be it client error, server error or other. Turning off STRICT mode will simply warn of client/server errors with no exit program.
+  STRICT: true
+  ONLY_CONFIG: false # this property is to have control on the program to print the configuration only without run the main program
+  # TYPE: It can be the values set on platform constants (@See constants.go), currently CDK or CDM
+  # CDK value: (Cloud Developer's Kit) development identity platform
+  # CDM value: CDM (Cloud Deployment Model) identity cloud platform
+  # FIDC (Forgerock Identity Cloud) identity cloud platform
+  TYPE: CDK
+  PATHS: # Key to define the paths for files to populate configuration data to the platform
+    CONFIG_BASE_DIRECTORY: config/defaults/ # Base configuration path folder
+    CONFIG_SECURE_BANKING: config/defaults/secure-open-banking/ # Path folder for secure banking
+    CONFIG_IDENTITY_PLATFORM: config/defaults/identity-platform/ # Path folder for generic platform configuration
+    CONFIG_AUTH_HELPER: config/defaults/auth-helper/  # Path for json to help with auth on FIdC platform
+HOSTS:
+  BASE_FQDN: dev.forgerock.financial
+  WILDCARD_FQDN: "*.forgerock.financial" # If set allows resources in AISP/PISP access to RC/RCS in all subdomains
+  IDENTITY_PLATFORM_FQDN: iam.dev.forgerock.financial # Identity platform Host name
+  IG_FQDN: sapig.dev.forgerock.financial
+  MTLS_FQDN: mtls.sapig.dev.forgerock.financial
+  RCS_UI_FQDN: rcs-ui.dev.forgerock.financial # RCS user interface app host name (Consent user app)
+  SCHEME: https # URI scheme, Syntax part of a generic URI
+  IG_AUDIENCE_FQDNS:
+IG: # Root key for parameter values related with IG platform component service configuration
+  IG_CLIENT_ID: ig-client # The name of the OAuth2 Client ID to be used by IG to authenticate to the FR Platform
+  IG_CLIENT_SECRET: password # The OAuth2 client secret to be used by IG to authenticate to the FR Platform
+  IG_RCS_SECRET: password # IG rcs secret for remote consent service
+  IG_SSA_SECRET: password # IG ssa secret for software publisher agent
+  IG_IDM_USER: service_account.ig # IG service user account
+  IG_IDM_PASSWORD: 0penBanking! # IG service user account password
+  IG_AGENT_ID: ig-agent # IG agent id for IG policy agent
+  IG_AGENT_PASSWORD: password # Ig agent password for IG policy agent
+IDENTITY: # Root key for parameter values related with identity platform configuration
+  AM_REALM: alpha # The realm used for secure banking
+  IDM_CLIENT_ID: policy-client # Placeholder to create Open Banking Dynamic Policy script
+  IDM_CLIENT_SECRET: password # Placeholder to create Open Banking Dynamic Policy script
+  POLICY_CLIENT_SECRET: password # Suspect this is the same as IDM_CLIENT_SECRET - used only in create-policy-engine-oauth2-client.json
+  SERVICE_ACCOUNT_POLICY_USER: service_account.policy # Service account for Open banking policy
+  SERVICE_ACCOUNT_POLICY_PASSWORD: 0penBanking! # Service account for Open banking policy
+  SERVICE_ACCOUNT_POLICY_EMAIL: obst@forgerock.com # Service account for Open banking policy
+  REMOTE_CONSENT_ID: secure-open-banking-rcs # Identification of remote consent agent
+  REMOTE_CONSENT_SIGNING_PUBLIC_KEY: replace-me # RCS signing public key in PEM format
+  REMOTE_CONSENT_SIGNING_KEY_ID: replace-me # RCS signing key keyId
+  REMOTE_CONSENT_TIME_LIMIT_SECONDS: 900 # Time in seconds that the PSU has to complete the remote consent flow
+  OBRI_SOFTWARE_PUBLISHER_AGENT_NAME: OBRI # software publisher agent name
+  OB_TEST_DIRECTORY_SOFTWARE_PUBLISHER_NAME: Open Banking Test Directory # Software Publisher for the Open Banking Test Directory
+  SECURE_API_GATEWAY_DEVELOPMENT_TRUSTED_DIRECTORY: Secure API Gateway Development Trusted Directory # test software publisher agent
+  DEFAULT_USER_AUTHENTICATION_SERVICE: ldapService # configure the default user authentication service to use. ldapService should be used for CDK environments only.
+  GOOGLE_SECRET_STORE_NAME: Google Secrets # name of the store, for CDK this store will be created if it doesn't exist. For FIDC this name must match the name of the pre-configured Google Secrets Store
+  GOOGLE_SECRET_STORE_PROJECT: sbat-dev # name of the Google Cloud project which contains the secrets
+  GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME: am-oauth2-ca-certs # Google Secrets Manager secret name for secret containing trusted OAuth2 CA certs
+
+USERS: # Root key users to be created or to authenticate and authorize flows
+  FR_PLATFORM_ADMIN_USERNAME: amadmin # Identity platform Username with admin grants (must exist previously)
+  FR_PLATFORM_ADMIN_PASSWORD: replace-me # Identity platform User password with admin grants (must exist previously)
+TLS:
+  CLIENT_CERT_HEADER_NAME: ssl-client-cert # Name of the HTTP header that contains client's TLS cert. Note, nginx will set the cert into the ssl-client-cert header by default

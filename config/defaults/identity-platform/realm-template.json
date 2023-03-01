@@ -1,0 +1,6 @@
+{
+  "name":"{{.Identity.AmRealm}}",
+  "active":true,
+  "parentPath":"/",
+  "aliases":[]
+}
