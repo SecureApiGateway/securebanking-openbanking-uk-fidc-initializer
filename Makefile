@@ -9,7 +9,7 @@ all: mod build
 mod:
 	go mod download
 
-build: clean mod clone_config
+build: clean mod
 	go build -o ${binary-name}
 
 test:
