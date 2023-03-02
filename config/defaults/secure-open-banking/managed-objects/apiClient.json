@@ -127,6 +127,16 @@
             "isVirtual": false,
             "deleteQueryConfig": false
           },
+          "deleted": {
+            "title": "Deleted",
+            "type": "boolean",
+            "viewable": true,
+            "searchable": true,
+            "userEditable": true,
+            "description": "Has the ApiClient record been deleted",
+            "isVirtual": false,
+            "default": false
+          },
           "domesticPaymentIntents": {
             "description": "",
             "title": "Domesticpaymentintents",
@@ -219,6 +229,7 @@
           "id",
           "name",
           "description",
+          "deleted",
           "logoUri",
           "jwksUri",
           "ssa",
@@ -231,7 +242,8 @@
           "id",
           "name",
           "oauth2ClientId",
-          "ssa"
+          "ssa",
+          "deleted"
         ],
         "mat-icon": null
       },
