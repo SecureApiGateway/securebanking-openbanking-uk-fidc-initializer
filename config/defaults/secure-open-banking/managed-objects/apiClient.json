@@ -59,6 +59,20 @@
             "searchable": true,
             "userEditable": true
           },
+          "jwks": {
+            "title": "JWK Set",
+            "type": "object",
+            "viewable": true,
+            "searchable": false,
+            "userEditable": false
+          },
+          "roles": {
+            "title": "Roles",
+            "type": "string",
+            "viewable": true,
+            "searchable": false,
+            "userEditable": true
+          },
           "ssa": {
             "title": "Software Statement Assertion",
             "type": "string",
