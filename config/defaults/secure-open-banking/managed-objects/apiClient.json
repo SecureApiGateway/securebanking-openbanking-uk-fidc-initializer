@@ -68,7 +68,10 @@
           },
           "roles": {
             "title": "Roles",
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "viewable": true,
             "searchable": false,
             "userEditable": true
