@@ -175,12 +175,12 @@ function getIdmAccessToken() {
     request.setUri(clientInfo.endpoint);
     request.setMethod("POST");
     request.getHeaders().add("Content-Type", "application/x-www-form-urlencoded");
-    var formvars = "grant_type=password" +
+    var formvars = encodeURI("grant_type=password" +
         "&client_id=" + clientInfo.id +
         "&client_secret=" + clientInfo.secret +
         "&scope=" + clientInfo.scope +
         "&username=" + clientInfo.idmAdminUsername +
-        "&password=" + clientInfo.idmAdminPassword;
+        "&password=" + clientInfo.idmAdminPassword);
     request.setEntity(formvars);
 
     var response = httpClient.send(request).get();
@@ -222,7 +222,7 @@ function findIntentType(api) {
 function fetchIntentFromIdm(intentId, intentType) {
     var accessToken = getIdmAccessToken();
     var request = new org.forgerock.http.protocol.Request();
-    var uri ="https://{{ .Hosts.IdentityPlatformFQDN }}/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,OBIntentObject,user/_id,accounts,apiClient/_id"
+    var uri = encodeURI("https://{{ .Hosts.IdentityPlatformFQDN }}/openidm/managed/" + intentType + "/" + intentId + "?_fields=_id,_rev,OBIntentObject,user/_id,accounts,apiClient/_id")
 
     logger.message(script_name + ": IDM fetch " + uri)
 
