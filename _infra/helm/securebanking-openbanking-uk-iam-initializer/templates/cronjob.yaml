@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: iam-init
+  name: {{ .Chart.Name }}
 spec:
   schedule: "{{ .Values.cron }}"
   concurrencyPolicy: Forbid
@@ -25,49 +25,49 @@ spec:
                 - name: ENVIRONMENT.TYPE
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: ENVIRONMENT_TYPE
                 - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: HOSTS.BASE_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: BASE_FQDN
                 - name: HOSTS.IG_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IG_FQDN
                 - name: HOSTS.MTLS_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: MTLS_FQDN
                 - name: HOSTS.IDENTITY_PLATFORM_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
                       optional: true
                 - name: IDENTITY.GOOGLE_SECRET_STORE_NAME
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_NAME
                       optional: true
                 - name: IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                       optional: true
                 {{- if eq .Values.environment.fr_platform.type "FIDC" }}
@@ -96,12 +96,12 @@ spec:
                 - name: IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID
                 - name: IDENTITY.REMOTE_CONSENT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: securebanking-platform-config
+                      name: deployment-config
                       key: RCS_CONSENT_RESPONSE_JWT_ISSUER
                 - name: IG.IG_CLIENT_ID
                   valueFrom:

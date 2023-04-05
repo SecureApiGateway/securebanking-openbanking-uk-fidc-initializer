@@ -1,5 +1,5 @@
 apiVersion: v2
-name: iam-init
+name: fidc-configurator
 description: The helm chart to deploy the cronjob that configures the Identity platform
 type: application
 version: 1.0.0
