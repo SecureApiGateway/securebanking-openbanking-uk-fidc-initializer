@@ -7,7 +7,7 @@ on:
       - README.md
 
 env:
-  SERVICE_NAME: securebanking-openbanking-uk-fidc-inilializer
+  SERVICE_NAME: fidc-configurator
   PR_NUMBER: pr-${{ github.event.number }}
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
       - name: 'Deploy Service'
         uses: codefresh-io/codefresh-pipeline-runner@master
         with:
-          args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=iamInitialiser -v SERVICE_NAME=iam-initialiser -v ENVIRONMENT=${{ env.GITHUB_USER }} -v BRANCH=${{ github.head_ref }}'
+          args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=fidcConfigurator -v SERVICE_NAME=fidc-configurator -v ENVIRONMENT=${{ env.GITHUB_USER }} -v BRANCH=${{ github.head_ref }}'
         env:
           PIPELINE_NAME: 'ForgeCloud/sbat-infra/service-build'
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
