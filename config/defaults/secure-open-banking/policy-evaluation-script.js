@@ -236,34 +236,6 @@ function fetchIntentFromIdm(intentId, intentType) {
     return JSON.parse(response.getEntity().getString());
 }
 
-function deepCompare(arg1, arg2) {
-    if (Object.prototype.toString.call(arg1) === Object.prototype.toString.call(arg2)) {
-        if (Object.prototype.toString.call(arg1) === '[object Object]' || Object.prototype.toString.call(arg1) === '[object Array]') {
-            if (Object.keys(arg1).length !== Object.keys(arg2).length) {
-                return false;
-            }
-            return (Object.keys(arg1).every(function (key) {
-                return deepCompare(arg1[key], arg2[key]);
-            }));
-        }
-        return (arg1 === arg2);
-    }
-    return false;
-}
-
-function initiationMatch(initiationRequest, initiation) {
-    var initiationRequestObj = JSON.parse(stringFromArray(base64decode(initiationRequest)))
-    logger.message(script_name + ": initiationRequestObj " + JSON.stringify(initiationRequestObj))
-    logger.message(script_name + ": initiation " + JSON.stringify(initiation))
-
-    var match = deepCompare(initiationRequestObj, initiation);
-    if (!match) {
-        logger.warning(script_name + ": Mismatch between request [" + JSON.stringify(initiationRequestObj) + "] and consent [" + JSON.stringify(initiation) + "]");
-    }
-
-    return match
-}
-
 var intentId = environment.get("intent_id").iterator().next();
 var apiRequest = parseResourceUri()
 logger.message(script_name + ": req " + apiRequest.api + ":" + apiRequest.id + ":" + apiRequest.data);
@@ -320,8 +292,7 @@ if (intentType === "accountAccessIntent") {
             switch (requestMethod) {
                 case "POST":
                     logger.message(script_name + "-[Payments]: POST request");
-                    var initiation = environment.get("initiation").iterator().next()
-                    authorized = initiationMatch(initiation, obIntentObj.Data.Initiation)
+                    authorized = true
                     break;
                 case "GET":
                     logger.message(script_name + "-[Payments]: GET request");
