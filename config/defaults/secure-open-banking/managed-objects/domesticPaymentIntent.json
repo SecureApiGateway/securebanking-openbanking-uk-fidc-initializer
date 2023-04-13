@@ -859,13 +859,57 @@
                       "TownName",
                       "Country"
                     ]
+                  },
+                  "ContractPresentInidicator": {
+                    "title": "ContractPresentInidicator",
+                    "type": "boolean",
+                    "viewable": true,
+                    "searchable": true,
+                    "userEditable": true,
+                    "description": "Indicates if Payee has a contractual relationship with the PISP.",
+                    "isVirtual": false,
+                    "default": false
+                  },
+                  "BeneficiaryPrepopulatedIndicator": {
+                    "title": "BeneficiaryPrepopulatedIndicator",
+                    "type": "boolean",
+                    "viewable": true,
+                    "searchable": true,
+                    "userEditable": true,
+                    "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU.",
+                    "isVirtual": false,
+                    "default": false
+                  },
+                  "PaymentPurposeCode": {
+                    "title": "PaymentPurposeCode",
+                    "type": "string",
+                    "viewable": true,
+                    "searchable": true,
+                    "userEditable": true,
+                    "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List.",
+                    "isVirtual": false,
+                    "default": false
+                  },
+                  "BeneficiaryAccountType": {
+                    "title": "BeneficiaryAccountType",
+                    "type": "string",
+                    "viewable": true,
+                    "searchable": true,
+                    "userEditable": true,
+                    "description": "To be provided if the AccountType is known.",
+                    "isVirtual": false,
+                    "default": false
                   }
                 },
                 "order": [
                   "PaymentContextCode",
                   "MerchantCategoryCode",
                   "MerchantCustomerIdentification",
-                  "DeliveryAddress"
+                  "DeliveryAddress",
+                  "ContractPresentInidicator",
+                  "BeneficiaryPrepopulatedIndicator",
+                  "PaymentPurposeCode",
+                  "BeneficiaryAccountType"
                 ],
                 "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.",
                 "isVirtual": false,
