@@ -1332,8 +1332,7 @@
                     "searchable": true,
                     "userEditable": true,
                     "description": "Indicates if Payee has a contractual relationship with the PISP.",
-                    "isVirtual": false,
-                    "default": false
+                    "isVirtual": false
                   },
                   "BeneficiaryPrepopulatedIndicator": {
                     "title": "BeneficiaryPrepopulatedIndicator",
@@ -1342,8 +1341,7 @@
                     "searchable": true,
                     "userEditable": true,
                     "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU.",
-                    "isVirtual": false,
-                    "default": false
+                    "isVirtual": false
                   },
                   "PaymentPurposeCode": {
                     "title": "PaymentPurposeCode",
@@ -1352,8 +1350,7 @@
                     "searchable": true,
                     "userEditable": true,
                     "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List.",
-                    "isVirtual": false,
-                    "default": false
+                    "isVirtual": false
                   },
                   "BeneficiaryAccountType": {
                     "title": "BeneficiaryAccountType",
@@ -1362,8 +1359,7 @@
                     "searchable": true,
                     "userEditable": true,
                     "description": "To be provided if the AccountType is known.",
-                    "isVirtual": false,
-                    "default": false
+                    "isVirtual": false
                   }
                 },
                 "order": [
