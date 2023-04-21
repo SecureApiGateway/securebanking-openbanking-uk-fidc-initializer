@@ -684,7 +684,7 @@
                     "maxLength": 70,
                     "isVirtual": false
                   },
-                  "ContractPresentInidicator": {
+                  "ContractPresentIndicator": {
                     "title": "Contract Present Indicator",
                     "type": "boolean",
                     "viewable": true,
@@ -818,7 +818,7 @@
                   "PaymentPurposeCode",
                   "MerchantCategoryCode",
                   "MerchantCustomerIdentification",
-                  "ContractPresentInidicator",
+                  "ContractPresentIndicator",
                   "BeneficiaryPrepopulatedIndicator",
                   "BeneficiaryAccountType",
                   "DeliveryAddress"
