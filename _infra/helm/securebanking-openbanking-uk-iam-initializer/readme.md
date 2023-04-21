@@ -177,7 +177,7 @@ These are the environment variables declared in the `deployment.yaml`;
 | ENVIRONMENT.TYPE | FIDC | Type of Cloud Instance being ran, depends on what environment you are running | deployment-config |
 | IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | deployment-config |
 | HOSTS.BASE_FQDN | forgerock.financial | Base DNS to be used | deployment-config |
-| HOSTS.IG_FQDN | sapig.forgerock.financial | IG DNS to be used | deployment-config
+| HOSTS.IG_FQDN | sapig.forgerock.financial | IG DNS to be used | deployment-config |
 | HOSTS.MTLS_FQDN | mtls.sapig.forgerock.financial | mtls DNS to be used | deployment-config |
 | HOSTS.IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | deployment-config |
 | IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE | | | deployment-config | X |
