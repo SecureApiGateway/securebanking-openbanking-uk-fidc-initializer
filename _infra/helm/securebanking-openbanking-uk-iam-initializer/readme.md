@@ -170,7 +170,7 @@ spec:
 ```
 ### Environment Variables
 
-These are the environment variables declared in the `deployment.yaml`;
+These are the environment variables declared in the `cronjob.yaml`;
 | Key | Default | Description | Source | Optional |
 |-----|---------|-------------|--------|----------|
 | ENVIRONMENT.STRICT | true | If true, any errors will cause the job to exit | cronjob.environment.strict |
