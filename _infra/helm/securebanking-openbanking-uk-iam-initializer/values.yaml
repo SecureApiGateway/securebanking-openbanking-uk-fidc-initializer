@@ -1,4 +1,4 @@
-cron: "* * * * *"
+cron: "* * * * MON"
   
 deployment:  
   imageOverride:
