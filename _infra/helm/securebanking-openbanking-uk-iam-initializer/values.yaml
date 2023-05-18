@@ -1,46 +1,29 @@
-cron: "* * * * *"
-  
-deployment:  
-  imageOverride:
-    enabled: true
-    repo: eu.gcr.io/sbat-gcr-develop/securebanking
-    iam_initializer_image_name: secureopenbanking-uk-iam-initializer
-    iam_initializer_image_tag: latest
-  imagePullPolicy: Always
-
-# ** Value Name:** iam_initializer_image_location
-#
-# ** Value Description** 
-# Location of the image in your docker repository. Override this in your own values file.
-# The template expects a tpl value, which enables the image location to be built up from
-# values containing repo location, image name etc. e.g.
-# 
-#  # Values from file
-#  helm_repository: eu.gcr.io/sbat-gcr-develop/securebanking
-#  iam_initializer_image_name: secureopenbanking-uk-iam-initializer
-#  iam_initializer_image_tag: latest
-#  iam_initializer_image_location: "{{ .Values.helm_repository }}/{{ .Values.iam_initializer_image_name }}:{{ .Values.iam_initializer_image_tag}}"
-
-
-# environment.type: It can be:
-# CDK value: (Cloud Developer's Kit) development identity platform
-# CDM value: CDM (Cloud Deployment Model) identity cloud platform
-# FIDC value: FIDC (Forgerock Identity Cloud) identity cloud platform
-environment:
-  # Configuration relating to the FR Platform
-  fr_platform:
-    type: FIDC
-    fqdn: iam.dev.forgerock.financial
-  # Configuration relation to the SBAT deployment
-  sbat: 
-    # The GCP project in which the SBAT is deployed
-    projectId: sbat-dev
-    fqdn: dev.forgerock.financial
-  
-  # RaiseForStatus will exit if go resty returns an error in STRICT mode,
-  # be it client error, server error or other. Turning off (false)
-  # STRICT mode will simply warn of client/server errors.
-  strict: true
-  cdmadminpassword: change
-
-
+---
+cronjob:
+  # Policy of allowing concurrent pods to run
+  concurrencyPolicy: Forbid
+  environment:
+    # CDK value: (Cloud Developer's Kit) development identity platform
+    # CDM value: CDM (Cloud Deployment Model) identity cloud platform
+    # FIDC value: FIDC (Forgerock Identity Cloud) identity cloud platform
+    frPlatformType: FIDC
+    # RaiseForStatus will exit if go resty returns an error in STRICT mode,
+    # be it client error, server error or other. Turning off (false)
+    # STRICT mode will simply warn of client/server errors.
+    strict: true
+  image:
+    # Repo And Tag are not provided here as the value for the repo will be unique for each user/customer as they will be building their own docker images and push to their own Container Registries 
+    # The tag will use the .AppVersion as the default, meaning that customers who want to install V1 will get V1.0.0 of the software - you may supply a hard coded version if required  
+    # The values for each of these should be supplied in the .Values folder of an individual deployment within the specification repository - See https://github.com/SecureApiGateway/SecureApiGateway/wiki/Deployment#repositories
+    # repo:
+    # tag:
+    # We want to pull the image down each time we do a deployment, required if using 'latest' tag
+    imagePullPolicy: Always
+  # When the cronjob should run - default is every minute
+  schedule: "* * * * *"
+  # How many successful jobs should be kept for histroy 
+  seccessfulJobHistoryLimit: 1
+  # Time in seconds to deplay starting the cronjob once deployed
+  startingDeadlineSeconds: 180
+  # When to restart the pod
+  restartPolicy: OnFailure

@@ -1,27 +1,24 @@
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Chart.Name }}
 spec:
-  schedule: "{{ .Values.cron }}"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
-  startingDeadlineSeconds: 180
+  schedule: "{{ .Values.cronjob.schedule }}"
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.cronjob.seccessfulJobHistoryLimit}}
+  startingDeadlineSeconds: {{ .Values.cronjob.startingDeadlineSeconds}}
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: {{ .Chart.Name }}
-              {{- if .Values.deployment.imageOverride.enabled }}
-              image: "{{ .Values.deployment.imageOverride.repo }}/{{ .Values.deployment.imageOverride.iam_initializer_image_name}}:{{ .Values.deployment.imageOverride.iam_initializer_image_tag }}"
-              {{- else }}
-              image: "eu.gcr.io/sbat-gcr-release/securebanking/{{ .Chart.Name }}:{{ .Chart.AppVersion }}"
-              {{- end }}
-              imagePullPolicy: {{ .Values.deployment.imagePullPolicy }}
+              image: "{{ .Values.cronjob.image.repo }}:{{ default .Chart.AppVersion .Values.cronjob.image.tag }}"
+              imagePullPolicy: {{ .Values.cronjob.image.imagePullPolicy }}
               env:
                 - name: ENVIRONMENT.STRICT
-                  value: {{ .Values.environment.strict | quote }}
+                  value: {{ .Values.cronjob.environment.strict | quote }}
                 - name: ENVIRONMENT.TYPE
                   valueFrom:
                     configMapKeyRef:
@@ -70,7 +67,7 @@ spec:
                       name: deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                       optional: true
-                {{- if eq .Values.environment.fr_platform.type "FIDC" }}
+                {{- if eq .Values.cronjob.environment.frPlatformType "FIDC" }}
                 - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
                   valueFrom:
                     secretKeyRef:
@@ -145,4 +142,4 @@ spec:
                   sleep 10
                   done
                   ./initialize
-          restartPolicy: OnFailure
+          restartPolicy: {{ .Values.cronjob.restartPolicy }}
