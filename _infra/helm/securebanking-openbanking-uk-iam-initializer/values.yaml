@@ -2,6 +2,7 @@
 cronjob:
   # Policy of allowing concurrent pods to run
   concurrencyPolicy: Forbid
+  enabled: true
   environment:
     # CDK value: (Cloud Developer's Kit) development identity platform
     # CDM value: CDM (Cloud Deployment Model) identity cloud platform
