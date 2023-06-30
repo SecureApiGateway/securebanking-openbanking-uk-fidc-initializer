@@ -2,6 +2,7 @@
 cronjob:
   # Policy of allowing concurrent pods to run
   concurrencyPolicy: Forbid
+  # We might not want to run the fidc configurator in all environments (for example Nightly) - setting to false will skip creating the fidc configurator in the cluster
   enabled: true
   environment:
     # CDK value: (Cloud Developer's Kit) development identity platform
