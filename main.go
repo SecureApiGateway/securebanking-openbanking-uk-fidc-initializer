@@ -106,12 +106,6 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	securebanking.CreatePolicyServiceUser()
-	scriptID := securebanking.CreatePolicyEvaluationScript(session.Cookie)
-	securebanking.CreateOpenBankingPolicySet()
-	securebanking.CreateAISPPolicy(scriptID)
-	securebanking.CreatePISPPolicy(scriptID)
-	securebanking.CreatePolicyEngineOAuth2Client()
 	platform.CreateIGServiceUser()
 	platform.CreateIGOAuth2Client()
 	platform.CreateIGPolicyAgent()

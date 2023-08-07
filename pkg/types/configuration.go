@@ -29,17 +29,13 @@ type identity struct {
 	AmRealm                                  string `mapstructure:"AM_REALM"`
 	IdmClientId                              string `mapstructure:"IDM_CLIENT_ID"`
 	IdmClientSecret                          string `mapstructure:"IDM_CLIENT_SECRET"`
-	PolicyClientSecret                       string `mapstructure:"POLICY_CLIENT_SECRET"`
 	RemoteConsentId                          string `mapstructure:"REMOTE_CONSENT_ID"`
 	RemoteConsentSigningPublicKey            string `mapstructure:"REMOTE_CONSENT_SIGNING_PUBLIC_KEY"`
 	RemoteConsentSigningKeyId                string `mapstructure:"REMOTE_CONSENT_SIGNING_KEY_ID"`
 	RemoteConsentTimeLimitSeconds            int    `mapstructure:"REMOTE_CONSENT_TIME_LIMIT_SECONDS"`
 	ObriSoftwarePublisherAgent               string `mapstructure:"OBRI_SOFTWARE_PUBLISHER_AGENT_NAME"`
-	ObTestDirectorySoftwarePublisherAgent	 string `mapstructure:"OB_TEST_DIRECTORY_SOFTWARE_PUBLISHER_NAME"`
+	ObTestDirectorySoftwarePublisherAgent    string `mapstructure:"OB_TEST_DIRECTORY_SOFTWARE_PUBLISHER_NAME"`
 	SecureApiGatewayDevTrustedDirectory      string `mapstructure:"SECURE_API_GATEWAY_DEVELOPMENT_TRUSTED_DIRECTORY"`
-	ServiceAccountPolicyUser                 string `mapstructure:"SERVICE_ACCOUNT_POLICY_USER"`
-	ServiceAccountPolicyPassword             string `mapstructure:"SERVICE_ACCOUNT_POLICY_PASSWORD"`
-	ServiceAccountPolicyEmail                string `mapstructure:"SERVICE_ACCOUNT_POLICY_EMAIL"`
 	GoogleSecretStoreName                    string `mapstructure:"GOOGLE_SECRET_STORE_NAME"`
 	GoogleSecretStoreProject                 string `mapstructure:"GOOGLE_SECRET_STORE_PROJECT"`
 	GoogleSecretStoreOAuth2CaCertsSecretName string `mapstructure:"GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME"`
