@@ -153,92 +153,6 @@
             "description": "Has the ApiClient record been deleted",
             "isVirtual": false,
             "default": false
-          },
-          "domesticPaymentIntents": {
-            "description": "",
-            "title": "Domesticpaymentintents",
-            "viewable": true,
-            "searchable": false,
-            "userEditable": false,
-            "returnByDefault": false,
-            "notifySelf": false,
-            "type": "array",
-            "items": {
-              "type": "relationship",
-              "reverseRelationship": true,
-              "reversePropertyName": "apiClient",
-              "validate": false,
-              "properties": {
-                "_ref": {
-                  "type": "string"
-                },
-                "_refProperties": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "required": false,
-                      "propName": "_id"
-                    }
-                  }
-                }
-              },
-              "resourceCollection": [
-                {
-                  "path": "managed/domesticPaymentIntent",
-                  "label": "Domesticpaymentintent",
-                  "query": {
-                    "queryFilter": "true",
-                    "fields": [],
-                    "sortKeys": []
-                  },
-                  "notify": false
-                }
-              ]
-            }
-          },
-          "accountAccessIntents": {
-            "description": "",
-            "title": "Accountaccessintents",
-            "viewable": true,
-            "searchable": false,
-            "userEditable": false,
-            "returnByDefault": false,
-            "notifySelf": false,
-            "type": "array",
-            "items": {
-              "type": "relationship",
-              "reverseRelationship": true,
-              "reversePropertyName": "apiClient",
-              "validate": false,
-              "properties": {
-                "_ref": {
-                  "type": "string"
-                },
-                "_refProperties": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "required": false,
-                      "propName": "_id"
-                    }
-                  }
-                }
-              },
-              "resourceCollection": [
-                {
-                  "path": "managed/accountAccessIntent",
-                  "label": "Accountaccessintent",
-                  "query": {
-                    "queryFilter": "true",
-                    "fields": [],
-                    "sortKeys": []
-                  },
-                  "notify": false
-                }
-              ]
-            }
           }
         },
         "order": [
@@ -251,9 +165,7 @@
           "jwksUri",
           "ssa",
           "apiClientOrg",
-          "oauth2ClientId",
-          "domesticPaymentIntents",
-          "accountAccessIntents"
+          "oauth2ClientId"
         ],
         "required": [
           "id",
