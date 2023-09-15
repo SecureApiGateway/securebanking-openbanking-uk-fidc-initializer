@@ -1,4 +1,5 @@
 ---
+{{- if eq .Values.cronjob.enabled "true" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -149,3 +150,4 @@ spec:
                   done
                   ./initialize
           restartPolicy: {{ .Values.cronjob.restartPolicy }}
+{{ end }}
