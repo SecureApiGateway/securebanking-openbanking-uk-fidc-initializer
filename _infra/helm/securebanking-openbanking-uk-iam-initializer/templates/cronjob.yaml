@@ -62,6 +62,12 @@ spec:
                       name: deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_NAME
                       optional: true
+                - name: IDENTITY.GOOGLE_SECRET_STORE_PROJECT
+                  valueFrom:
+                    configMapKeyRef:
+                      name: deployment-config
+                      key: IDENTITY_GOOGLE_SECRET_STORE_PROJECT
+                      optional: true
                 - name: IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   valueFrom:
                     configMapKeyRef:
