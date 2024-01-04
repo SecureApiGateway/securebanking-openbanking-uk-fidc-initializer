@@ -1,5 +1,5 @@
 service := secureopenbanking-uk-iam-initializer
-gcr-repo := sbat-gcr-develop
+gcr-repo := europe-west4-docker.pkg.dev/sbat-gcr-develop/sapig-docker-artifact
 binary-name := initialize
 
 
@@ -30,9 +30,9 @@ ifndef tag
 	$(eval tag=latest)
 endif
 	env GOOS=linux GOARCH=amd64 go build -o initialize
-	docker buildx build --platform linux/amd64  -t eu.gcr.io/${gcr-repo}/securebanking/${service}:${tag} .
-	docker push eu.gcr.io/${gcr-repo}/securebanking/${service}:${tag}
+	docker buildx build --platform linux/amd64  -t ${gcr-repo}/securebanking/${service}:${tag} .
+	docker push ${gcr-repo}/securebanking/${service}:${tag}
 ifdef release-repo
-	docker tag eu.gcr.io/${gcr-repo}/securebanking/${service}:${tag} eu.gcr.io/${release-repo}/securebanking/${service}:${tag}
-	docker push eu.gcr.io/${release-repo}/securebanking/${service}:${tag}
+	docker tag ${gcr-repo}/securebanking/${service}:${tag} ${release-repo}/securebanking/${service}:${tag}
+	docker push ${release-repo}/securebanking/${service}:${tag}
 endif
