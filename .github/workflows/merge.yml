@@ -22,7 +22,8 @@ jobs:
         run: |
           make test-ci
 
-      - uses: google-github-actions/auth@v2
+      - name: Auth to GCP  
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.DEV_GAR_KEY }}
 
@@ -30,7 +31,8 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1.1.1
 
         # Configure docker to use the gcloud command-line tool as a credential helper
-      - run: |
+      - name: Auth Docker
+        run: |
           gcloud auth configure-docker europe-west4-docker.pkg.dev
       
       - name: docker build
