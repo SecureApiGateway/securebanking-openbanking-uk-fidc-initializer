@@ -47,7 +47,7 @@ jobs:
           make docker tag=${{ env.PR_NUMBER }}
 
   test:
-    name: Test
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -58,6 +58,7 @@ jobs:
 
       - name: 'Deploy Service'
         uses: codefresh-io/codefresh-pipeline-runner@master
+        if: github.actor != 'dependabot[bot]'
         with:
           args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=fidcConfigurator -v SERVICE_NAME=fidc-configurator -v ENVIRONMENT=${{ env.GITHUB_USER }} -v BRANCH=${{ github.head_ref }}'
         env:
