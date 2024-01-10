@@ -1,4 +1,4 @@
-name: pr
+name: Pull Request - Build and Deploy
 
 on:
   workflow_dispatch:
@@ -46,7 +46,7 @@ jobs:
         run: |
           make docker tag=${{ env.PR_NUMBER }}
 
-  test:
+  deploy:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
