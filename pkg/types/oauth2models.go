@@ -94,6 +94,7 @@ type (
 		SupportedTokenIntrospectionResponseEncryptionEnc        []string      `json:"supportedTokenIntrospectionResponseEncryptionEnc"`
 		SupportedTokenIntrospectionResponseEncryptionAlgorithms []string      `json:"supportedTokenIntrospectionResponseEncryptionAlgorithms"`
 		AuthorisedIdmDelegationClients                          []interface{} `json:"authorisedIdmDelegationClients"`
+		SupportedAuthorizationResponseSigningAlgorithms         []string      `json:"supportedAuthorizationResponseSigningAlgorithms"`
 	}
 
 	ClientDynamicRegistrationConfig struct {
