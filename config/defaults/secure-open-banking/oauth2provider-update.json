@@ -155,6 +155,9 @@
     "supportedUserInfoSigningAlgorithms": [
       "PS256"
     ],
+    "supportedAuthorizationResponseSigningAlgorithms": [
+      "PS256"
+    ],
     "supportedTokenIntrospectionResponseEncryptionEnc": [
       "A256GCM",
       "A192GCM",
