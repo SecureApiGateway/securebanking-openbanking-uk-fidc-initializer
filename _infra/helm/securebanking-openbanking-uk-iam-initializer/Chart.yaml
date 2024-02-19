@@ -1,6 +1,6 @@
 apiVersion: v2
 name: fidc-configurator
-description: The helm chart to deploy the cronjob that configures the Identity platform
+description: The helm chart to deploy the job that configures the Identity platform
 type: application
-version: 1.0.0
-appVersion: 1.0.0
+version: 2.0.0
+appVersion: 2.0.0
