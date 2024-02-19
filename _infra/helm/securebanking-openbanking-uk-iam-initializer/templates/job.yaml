@@ -1,5 +1,4 @@
 ---
-{{- if eq .Values.job.enabled true }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -151,4 +150,3 @@ spec:
               ./initialize
       restartPolicy: {{ .Values.job.restartPolicy }}
   backoffLimit: {{ .Values.job.backoffLimit }}
-{{ end }}
