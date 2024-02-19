@@ -1,157 +1,152 @@
 ---
-{{- if eq .Values.cronjob.enabled true }}
+{{- if eq .Values.job.enabled true }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Chart.Name }}
 spec:
-  schedule: "{{ .Values.cronjob.schedule }}"
-  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
-  successfulJobsHistoryLimit: {{ .Values.cronjob.seccessfulJobHistoryLimit}}
-  startingDeadlineSeconds: {{ .Values.cronjob.startingDeadlineSeconds}}
-  jobTemplate:
+  template:
+    metadata:
+      labels:
+        appversion: {{ .Chart.AppVersion }}
+        chartversion: {{ .Chart.Version }}
     spec:
-      template:
-        metadata:
-          labels:
-            appversion: {{ .Chart.AppVersion }}
-            chartversion: {{ .Chart.Version }}
-        spec:
-          containers:
-            - name: {{ .Chart.Name }}
-              image: "{{ .Values.cronjob.image.repo }}:{{ default .Chart.AppVersion .Values.cronjob.image.tag }}"
-              imagePullPolicy: {{ .Values.cronjob.image.imagePullPolicy }}
-              env:
-                - name: ENVIRONMENT.STRICT
-                  value: {{ .Values.cronjob.environment.strict | quote }}
-                - name: ENVIRONMENT.TYPE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: ENVIRONMENT_TYPE
-                - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_PLATFORM_FQDN
-                - name: HOSTS.BASE_FQDN
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: BASE_FQDN
-                - name: HOSTS.IG_FQDN
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IG_FQDN
-                - name: HOSTS.MTLS_FQDN
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: MTLS_FQDN
-                - name: HOSTS.IDENTITY_PLATFORM_FQDN
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_PLATFORM_FQDN
-                - name: IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
-                      optional: true
-                - name: IDENTITY.GOOGLE_SECRET_STORE_NAME
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_GOOGLE_SECRET_STORE_NAME
-                      optional: true
-                - name: IDENTITY.GOOGLE_SECRET_STORE_PROJECT
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_GOOGLE_SECRET_STORE_PROJECT
-                      optional: true
-                - name: IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
-                      optional: true
-                {{- if eq .Values.cronjob.environment.frPlatformType "FIDC" }}
-                - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: initializer-secret
-                      key: cdm-admin-password
-                - name: USERS.FR_PLATFORM_ADMIN_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: initializer-secret
-                      key: cdm-admin-user
-                {{- else }}
-                - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: am-env-secrets
-                      key: AM_PASSWORDS_AMADMIN_CLEAR       
-                {{ end }}
-                - name: IDENTITY.REMOTE_CONSENT_SIGNING_PUBLIC_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: rcs-signing
-                      key: rcs-signing.pem
-                - name: IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID
-                - name: IDENTITY.REMOTE_CONSENT_ID
-                  valueFrom:
-                    configMapKeyRef:
-                      name: deployment-config
-                      key: RCS_CONSENT_RESPONSE_JWT_ISSUER
-                - name: IG.IG_CLIENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_CLIENT_ID
-                - name: IG.IG_CLIENT_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_CLIENT_SECRET
-                - name: IG.IG_IDM_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_IDM_USER
-                - name: IG.IG_IDM_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_IDM_PASSWORD
-                - name: IG.IG_AGENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_AGENT_ID
-                - name: IG.IG_AGENT_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: openig-secrets-env
-                      key: IG_AGENT_PASSWORD
-              command: [ "/bin/sh", "-c" ]
-              args:
-                - |
-                  echo "IDENTITY_PLATFORM_FQDN $IDENTITY_PLATFORM_FQDN"
-                  until $(curl -X GET --output /dev/null --silent --head --fail -H "X-OpenIDM-Username: anonymous" \
-                  -H "X-OpenIDM-Password: anonymous" -H "X-OpenIDM-NoSession: true" \
-                  https://$IDENTITY_PLATFORM_FQDN/openidm/info/ping)
-                  do
-                  echo "IDM not ready"
-                  sleep 10
-                  done
-                  ./initialize
-          restartPolicy: {{ .Values.cronjob.restartPolicy }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.job.image.repo }}:{{ default .Chart.AppVersion .Values.job.image.tag }}"
+          imagePullPolicy: {{ .Values.job.image.imagePullPolicy }}
+          env:
+            - name: ENVIRONMENT.STRICT
+              value: {{ .Values.job.environment.strict | quote }}
+            - name: ENVIRONMENT.TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: ENVIRONMENT_TYPE
+            - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_PLATFORM_FQDN
+            - name: HOSTS.BASE_FQDN
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: BASE_FQDN
+            - name: HOSTS.IG_FQDN
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IG_FQDN
+            - name: HOSTS.MTLS_FQDN
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: MTLS_FQDN
+            - name: HOSTS.IDENTITY_PLATFORM_FQDN
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_PLATFORM_FQDN
+            - name: IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
+                  optional: true
+            - name: IDENTITY.GOOGLE_SECRET_STORE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_GOOGLE_SECRET_STORE_NAME
+                  optional: true
+            - name: IDENTITY.GOOGLE_SECRET_STORE_PROJECT
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_GOOGLE_SECRET_STORE_PROJECT
+                  optional: true
+            - name: IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
+                  optional: true
+            {{- if eq .Values.job.environment.frPlatformType "FIDC" }}
+            - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: initializer-secret
+                  key: cdm-admin-password
+            - name: USERS.FR_PLATFORM_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: initializer-secret
+                  key: cdm-admin-user
+            {{- else }}
+            - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: am-env-secrets
+                  key: AM_PASSWORDS_AMADMIN_CLEAR       
+            {{ end }}
+            - name: IDENTITY.REMOTE_CONSENT_SIGNING_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rcs-signing
+                  key: rcs-signing.pem
+            - name: IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID
+            - name: IDENTITY.REMOTE_CONSENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: RCS_CONSENT_RESPONSE_JWT_ISSUER
+            - name: IG.IG_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_CLIENT_ID
+            - name: IG.IG_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_CLIENT_SECRET
+            - name: IG.IG_IDM_USER
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_IDM_USER
+            - name: IG.IG_IDM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_IDM_PASSWORD
+            - name: IG.IG_AGENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_AGENT_ID
+            - name: IG.IG_AGENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openig-secrets-env
+                  key: IG_AGENT_PASSWORD
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - |
+              echo "IDENTITY_PLATFORM_FQDN $IDENTITY_PLATFORM_FQDN"
+              until $(curl -X GET --output /dev/null --silent --head --fail -H "X-OpenIDM-Username: anonymous" \
+              -H "X-OpenIDM-Password: anonymous" -H "X-OpenIDM-NoSession: true" \
+              https://$IDENTITY_PLATFORM_FQDN/openidm/info/ping)
+              do
+              echo "IDM not ready"
+              sleep 10
+              done
+              ./initialize
+      restartPolicy: {{ .Values.job.restartPolicy }}
+  backoffLimit: {{ .Values.job.backoffLimit }}
 {{ end }}

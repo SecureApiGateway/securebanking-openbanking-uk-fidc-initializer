@@ -1,7 +1,5 @@
 ---
-cronjob:
-  # Policy of allowing concurrent pods to run
-  concurrencyPolicy: Forbid
+job:
   # We might not want to run the fidc configurator in all environments (for example Nightly) - setting to false will skip creating the fidc configurator in the cluster
   enabled: true
   environment:
@@ -21,11 +19,5 @@ cronjob:
     # tag:
     # We want to pull the image down each time we do a deployment, required if using 'latest' tag
     imagePullPolicy: Always
-  # When the cronjob should run - default is every minute
-  schedule: "* * * * *"
-  # How many successful jobs should be kept for histroy 
-  seccessfulJobHistoryLimit: 1
-  # Time in seconds to deplay starting the cronjob once deployed
-  startingDeadlineSeconds: 180
   # When to restart the pod
   restartPolicy: OnFailure
