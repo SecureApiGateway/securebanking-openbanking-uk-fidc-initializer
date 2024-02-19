@@ -5,7 +5,7 @@ kind: Job
 metadata:
   name: {{ .Chart.Name }}
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
 spec:
   template:
     metadata:
