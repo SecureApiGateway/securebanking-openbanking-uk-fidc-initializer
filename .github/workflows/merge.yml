@@ -40,3 +40,18 @@ jobs:
           make docker tag=${{ env.GIT_SHA_SHORT }}
           docker tag ${{ vars.GAR_DEV_REPO }}/securebanking/${{ env.SERVICE_NAME }}:${{ env.GIT_SHA_SHORT }} ${{ vars.GAR_DEV_REPO }}/securebanking/${{ env.SERVICE_NAME }}:latest
           docker push ${{ vars.GAR_DEV_REPO }}/securebanking/${{ env.SERVICE_NAME }}:latest
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test Image
+    needs: build
+    steps:
+      - name: 'Update Environment'
+        uses: codefresh-io/codefresh-pipeline-runner@master
+        with:
+          args: '-v ARGO_VALUES_PREFIX=fidcConfigurator -v SERVICE_NAME=fidc-configurator'
+        env:
+          PIPELINE_NAME: 'ForgeCloud/sbat-infra/service-build'
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          TRIGGER_NAME: github-actions-trigger-init
+        id: run-pipeline
