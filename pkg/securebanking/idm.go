@@ -84,13 +84,13 @@ func addManagedObject(name string, objectFolderPath string) {
 	}
 
 	path := "/openidm/config/managed"
-	s := httprest.Client.Patch(path, b, map[string]string{
+	response, s := httprest.Client.Post(path, b, map[string]string{
 		"Accept":       "*/*",
 		"Content-Type": "application/json",
 		"Connection":   "keep-alive",
 	})
 
-	zap.S().Infow("Managed object patched", "statusCode", s, "name", name)
+	zap.S().Infow("Managed object created", "statusCode", s, "response", string(response), "name", name)
 }
 
 func CreateApiJwksEndpoint() {
