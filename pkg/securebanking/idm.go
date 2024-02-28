@@ -92,7 +92,7 @@ func addManagedObject(name string, objectFolderPath string) {
 		"X-ForgeRock-TransactionId": uuid.NewString(),
 	})
 
-	zap.S().Infow("Managed object created", "statusCode", s, "response", "name", name)
+	zap.S().Infow("Managed object created", "statusCode", s, "name", name)
 }
 
 func CreateApiJwksEndpoint() {

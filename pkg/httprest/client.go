@@ -85,5 +85,7 @@ func (r *RestClient) Put(path string, ob interface{}, headers map[string]string)
 
 	common.RaiseForStatus(err, resp.Error(), resp.StatusCode())
 
+	zap.S().Infow("Put response", "response", resp)
+
 	return resp.StatusCode()
 }
