@@ -70,27 +70,40 @@ func AddOBManagedObjects() {
 	managedObjectFilenames := objectNames(configPath)
 	mObjects := missingObjects(managedObjectFilenames)
 
+	zap.S().Infow("Attempting to add Managed Object definitions", "definitions", mObjects)
+	patches := make([]map[string]interface{}, 0)
 	for _, o := range mObjects {
-		addManagedObject(o, configPath)
+		patches = append(patches, unmarshallManagedObjectPatch(o, configPath)...)
+
 	}
+	patchManagedObjects(patches)
 }
 
-// AddManagedObject - Will add a managed object in IDM. retrieve a filename (minus the suffix) in a supplied directory
-//  and apply patch to idm.
-func addManagedObject(name string, objectFolderPath string) {
-	b, err := ioutil.ReadFile(objectFolderPath + name + ".json")
-	if err != nil {
-		panic(err)
-	}
+func patchManagedObjects(managedObjectPatches []map[string]interface{}) {
+	zap.S().Infow("Patching Managed Object definitions", "patches", managedObjectPatches)
 
 	path := "/openidm/config/managed"
-	s := httprest.Client.Patch(path, b, map[string]string{
+	s := httprest.Client.Patch(path, managedObjectPatches, map[string]string{
 		"Accept":       "*/*",
 		"Content-Type": "application/json",
 		"Connection":   "keep-alive",
 	})
 
-	zap.S().Infow("Managed object patched", "statusCode", s, "name", name)
+	zap.S().Infow("Managed object created", "statusCode", s)
+}
+
+func unmarshallManagedObjectPatch(name string, objectFolderPath string) []map[string]interface{} {
+	b, err := ioutil.ReadFile(objectFolderPath + name + ".json")
+	if err != nil {
+		panic(err)
+	}
+
+	patch := make([]map[string]interface{}, 0)
+	err = json.Unmarshal(b, &patch)
+	if err != nil {
+		panic(err)
+	}
+	return patch
 }
 
 func CreateApiJwksEndpoint() {
