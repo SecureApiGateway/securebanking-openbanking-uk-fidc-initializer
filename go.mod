@@ -13,5 +13,6 @@ require (
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/google/uuid v1.6.0
 	golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68 // indirect
 )

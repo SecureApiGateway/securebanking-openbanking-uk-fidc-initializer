@@ -7,6 +7,7 @@ import (
 	"secure-banking-uk-initializer/pkg/httprest"
 	"strings"
 
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -84,13 +85,14 @@ func addManagedObject(name string, objectFolderPath string) {
 	}
 
 	path := "/openidm/config/managed"
-	response, s := httprest.Client.Post(path, b, map[string]string{
-		"Accept":       "*/*",
-		"Content-Type": "application/json",
-		"Connection":   "keep-alive",
+	s := httprest.Client.Put(path, b, map[string]string{
+		"Accept":                    "*/*",
+		"Content-Type":              "application/json",
+		"Connection":                "keep-alive",
+		"X-ForgeRock-TransactionId": uuid.NewString(),
 	})
 
-	zap.S().Infow("Managed object created", "statusCode", s, "response", string(response), "name", name)
+	zap.S().Infow("Managed object created", "statusCode", s, "response", "name", name)
 }
 
 func CreateApiJwksEndpoint() {
