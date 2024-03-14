@@ -35,6 +35,7 @@ type (
 	}
 
 	AdvancedOAuth2Config struct {
+		JkwsURI                                    string        `json:"jkwsURI"`
 		TlsClientCertificateTrustedHeader          string        `json:"tlsClientCertificateTrustedHeader"`
 		TLSClientCertificateHeaderFormat           string        `json:"tlsClientCertificateHeaderFormat"`
 		SupportedSubjectTypes                      []string      `json:"supportedSubjectTypes"`

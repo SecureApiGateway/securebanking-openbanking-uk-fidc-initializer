@@ -72,7 +72,30 @@ spec:
                   name: core-deployment-config
                   key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   optional: true
-            {{- if ne .Values.job.environment.frPlatformType "FIDC" }}
+            - name: OB.ORGANISATION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: OB_ASPSP_ORG_ID
+                  optional: false
+            - name: OB.SOFTWARE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: deployment-config
+                  key: OB_ASPSP_SOFTWARE_ID
+                  optional: false
+            {{- if eq .Values.job.environment.frPlatformType "FIDC" }}
+            - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: initializer-secret
+                  key: cdm-admin-password
+            - name: USERS.FR_PLATFORM_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: initializer-secret
+                  key: cdm-admin-user
+            {{- else }}
             - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
