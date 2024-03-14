@@ -35,7 +35,6 @@ type (
 	}
 
 	AdvancedOAuth2Config struct {
-		JkwsURI                                    string        `json:"jkwsURI"`
 		TlsClientCertificateTrustedHeader          string        `json:"tlsClientCertificateTrustedHeader"`
 		TLSClientCertificateHeaderFormat           string        `json:"tlsClientCertificateHeaderFormat"`
 		SupportedSubjectTypes                      []string      `json:"supportedSubjectTypes"`
@@ -76,6 +75,7 @@ type (
 	}
 
 	AdvancedOIDCConfig struct {
+		JkwsURI                                                 string        `json:"jkwsURI"`
 		SupportedTokenIntrospectionResponseSigningAlgorithms    []string      `json:"supportedTokenIntrospectionResponseSigningAlgorithms"`
 		SupportedRequestParameterSigningAlgorithms              []string      `json:"supportedRequestParameterSigningAlgorithms"`
 		IDTokenInfoClientAuthenticationEnabled                  bool          `json:"idTokenInfoClientAuthenticationEnabled"`
