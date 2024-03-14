@@ -54,49 +54,49 @@ spec:
                 - name: ENVIRONMENT.TYPE
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
-                      key: ENVIRONMENT_TYPE
+                      name: core-deployment-config
+                      key: CLOUD_TYPE
                 - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: HOSTS.BASE_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: BASE_FQDN
                 - name: HOSTS.IG_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IG_FQDN
                 - name: HOSTS.MTLS_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: MTLS_FQDN
                 - name: HOSTS.IDENTITY_PLATFORM_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IDENTITY_DEFAULT_USER_AUTHENTICATION_SERVICE
                       optional: true
                 - name: IDENTITY.GOOGLE_SECRET_STORE_NAME
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_NAME
                       optional: true
                 - name: IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                       optional: true
                 - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
@@ -117,42 +117,42 @@ spec:
                 - name: IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID
                 - name: IDENTITY.REMOTE_CONSENT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: deployment-config
+                      name: core-deployment-config
                       key: RCS_CONSENT_RESPONSE_JWT_ISSUER
                 - name: IG.IG_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_CLIENT_ID
                 - name: IG.IG_CLIENT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_CLIENT_SECRET
                 - name: IG.IG_IDM_USER
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_IDM_USER
                 - name: IG.IG_IDM_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_IDM_PASSWORD
                 - name: IG.IG_AGENT_ID
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_AGENT_ID
                 - name: IG.IG_AGENT_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: openig-secrets-env
+                      name: core-secrets
                       key: IG_AGENT_PASSWORD
               command: [ "/bin/sh", "-c" ]
               args:
@@ -174,26 +174,26 @@ These are the environment variables declared in the `cronjob.yaml`;
 | Key | Default | Description | Source | Optional |
 |-----|---------|-------------|--------|----------|
 | ENVIRONMENT.STRICT | true | If true, any errors will cause the job to exit | cronjob.environment.strict |
-| ENVIRONMENT.TYPE | FIDC | Type of Cloud Instance being ran, depends on what environment you are running | deployment-config |
-| IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | deployment-config |
-| HOSTS.BASE_FQDN | forgerock.financial | Base DNS to be used | deployment-config |
-| HOSTS.IG_FQDN | sapig.forgerock.financial | IG DNS to be used | deployment-config |
-| HOSTS.MTLS_FQDN | mtls.sapig.forgerock.financial | mtls DNS to be used | deployment-config |
-| HOSTS.IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | deployment-config |
-| IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE | | | deployment-config | X |
-| IDENTITY.GOOGLE_SECRET_STORE_NAME | | | deployment-config | X |
-| IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME | | | deployment-config | X |
+| ENVIRONMENT.TYPE | FIDC | Type of Cloud Instance being ran, depends on what environment you are running | core-deployment-config |
+| IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | core-deployment-config |
+| HOSTS.BASE_FQDN | forgerock.financial | Base DNS to be used | core-deployment-config |
+| HOSTS.IG_FQDN | sapig.forgerock.financial | IG DNS to be used | core-deployment-config |
+| HOSTS.MTLS_FQDN | mtls.sapig.forgerock.financial | mtls DNS to be used | core-deployment-config |
+| HOSTS.IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | core-deployment-config |
+| IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE | | | core-deployment-config | X |
+| IDENTITY.GOOGLE_SECRET_STORE_NAME | | | core-deployment-config | X |
+| IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME | | | core-deployment-config | X |
 | USERS.FR_PLATFORM_ADMIN_PASSWORD | | Password for cloud instance. NOTE - This password can be used for `initializer-secret` or `am-env-secrets` depending on `ENVIRONMENT.TYPE` set | If `ENVIRONMENT.TYPE=FIDC` initializer-secret/cdm-admin-password else am-env-secrets/AM_PASSWORDS_AMADMIN_CLEAR |
 | USERS.FR_PLATFORM_ADMIN_USERNAME | | Username for cloud instance, only populated if `ENVIRONMENT.TYPE=FIDC` | initializer-secret/cdm-admin-user |
 | IDENTITY.REMOTE_CONSENT_SIGNING_PUBLIC_KEY | PEM File | The pem file to be used for RCS signing | rcs-signing secret | 
-| IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID | rcs-jwt-signer | | deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID 
-IDENTITY.REMOTE_CONSENT_ID | secure-open-banking-rcs | | deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID | 
-| IG.IG_CLIENT_ID | | | openig-secrets-env |
-| IG.IG_CLIENT_SECRET | | | openig-secrets-env |
-| IG.IG_IDM_USER | | | openig-secrets-env |
-| IG.IG_IDM_PASSWORD | | | openig-secrets-env |
-| IG.IG_AGENT_ID | | | openig-secrets-env |
-| IG.IG_AGENT_PASSWORD | | | openig-secrets-env |
+| IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID | rcs-jwt-signer | | core-deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID 
+IDENTITY.REMOTE_CONSENT_ID | secure-open-banking-rcs | | core-deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID | 
+| IG.IG_CLIENT_ID | | | core-secrets |
+| IG.IG_CLIENT_SECRET | | | core-secrets |
+| IG.IG_IDM_USER | | | core-secrets |
+| IG.IG_IDM_PASSWORD | | | core-secrets |
+| IG.IG_AGENT_ID | | | core-secrets |
+| IG.IG_AGENT_PASSWORD | | | core-secrets |
 
 ### Values
 These are the values that are consumed in the `deployment.yaml` and `service.yaml`;
