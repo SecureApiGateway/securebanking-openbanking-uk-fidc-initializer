@@ -108,10 +108,8 @@ func main() {
 	
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
-	
 	fmt.Println("Attempt to Create OAUTH2 Providers...")
 	securebanking.UpdateOAuth2Provider(id)
-	
 	securebanking.CreateBaseURLSourceService(session.Cookie)
 
 	time.Sleep(5 * time.Second)

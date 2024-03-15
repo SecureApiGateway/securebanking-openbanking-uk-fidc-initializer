@@ -241,8 +241,7 @@
       "A128CBC-HS256",
       "A192CBC-HS384",
       "A256CBC-HS512"
-    ],
-    "remoteConsentServiceId": "secure-open-banking-rcs"
+    ]
   },
   "deviceCodeConfig": {
     "devicePollInterval": 5,
