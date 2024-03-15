@@ -108,12 +108,10 @@ func main() {
 	
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
-	if common.Config.Environment.SapigType == "ob" {
-		fmt.Println("Attempt to Create OB OAUTH2 Providers...")
-		securebanking.UpdateOAuth2Provider(id)
-	} else {
-		fmt.Println("Attempt to Create Core OAUTH2 Providers...")
-	}
+	
+	fmt.Println("Attempt to Create OAUTH2 Providers...")
+	securebanking.UpdateOAuth2Provider(id)
+	
 	securebanking.CreateBaseURLSourceService(session.Cookie)
 
 	time.Sleep(5 * time.Second)
