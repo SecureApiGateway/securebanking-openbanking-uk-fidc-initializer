@@ -341,8 +341,6 @@ func UpdateOAuth2Provider(claimsScriptID string) {
 	err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider)
 	if err != nil {
 		panic(err)
-	} else {
-		oauth2Provider := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider)	
 	}
 
 	if oauth2ProviderExists(oauth2Provider.Type.ID) {
