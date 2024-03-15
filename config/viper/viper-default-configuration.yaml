@@ -6,6 +6,10 @@ ENVIRONMENT: # Root key to define the environment program properties
   # be it client error, server error or other. Turning off STRICT mode will simply warn of client/server errors with no exit program.
   STRICT: true
   ONLY_CONFIG: false # this property is to have control on the program to print the configuration only without run the main program
+  # SAPIG
+  # core: base sapig
+  # ob: Open Banking specification of sapig
+  SAPIGTYPE: core
   # TYPE: It can be the values set on platform constants (@See constants.go), currently CDK or CDM
   # CDK value: (Cloud Developer's Kit) development identity platform
   # CDM value: CDM (Cloud Deployment Model) identity cloud platform
@@ -53,6 +57,10 @@ IDENTITY: # Root key for parameter values related with identity platform configu
   GOOGLE_SECRET_STORE_NAME: Google Secrets # name of the store, for CDK this store will be created if it doesn't exist. For FIDC this name must match the name of the pre-configured Google Secrets Store
   GOOGLE_SECRET_STORE_PROJECT: sbat-dev # name of the Google Cloud project which contains the secrets
   GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME: am-oauth2-ca-certs # Google Secrets Manager secret name for secret containing trusted OAuth2 CA certs
+
+OB:
+  ORGANISATION_ID: override this # This should be the Open Banking Org ID of the ASPIP in OB Directory
+  SOFTWARE_ID: override_this # This should be the Open Banking Software ID of the ASPSP in OB Directory
 
 USERS: # Root key users to be created or to authenticate and authorize flows
   FR_PLATFORM_ADMIN_USERNAME: amadmin # Identity platform Username with admin grants (must exist previously)

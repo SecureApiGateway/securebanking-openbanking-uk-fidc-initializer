@@ -113,8 +113,7 @@ func remoteConsentExists(name string) bool {
 		"Accept-Api-Version": "protocol=2.0,resource=1.0",
 	})
 
-	err := json.Unmarshal(b, consent)
-	if err != nil {
+	if err := json.Unmarshal(b, consent); err != nil {
 		panic(err)
 	}
 
@@ -271,8 +270,7 @@ func softwarePublisherAgentExists(name string) bool {
 		"Accept-Api-Version": "protocol=2.0,resource=1.0",
 	})
 
-	err := json.Unmarshal(b, agent)
-	if err != nil {
+	if err := json.Unmarshal(b, agent); err != nil {
 		panic(err)
 	}
 
@@ -294,13 +292,11 @@ func CreateOIDCClaimsScript(cookie *http.Cookie) string {
 
 	claimsScript := &types.RequestScript{}
 
-	err = json.Unmarshal(b, claimsScript)
-	if err != nil {
+	if err = json.Unmarshal(b, claimsScript); err != nil {
 		panic(err)
 	}
 
-	id := httprest.GetScriptIdByName(claimsScript.Name)
-	if id != "" {
+	if id := httprest.GetScriptIdByName(claimsScript.Name); id != "" {
 		zap.L().Info("Script exists")
 		return id
 	}
@@ -323,12 +319,38 @@ func CreateOIDCClaimsScript(cookie *http.Cookie) string {
 }
 
 // UpdateOAuth2Provider - update the oauth 2 provider, must supply the claimScript ID
-func UpdateOAuth2Provider(claimsScriptID string) {
+func UpdateOBOAuth2Provider(claimsScriptID string) {
 	zap.S().Info("UpdateOAuth2Provider() Creating OAuth2Provider service in the " + common.Config.Identity.AmRealm + " realm")
+	oauth2Provider := &types.OBOAuth2Provider{}
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"oauth2provider-update.json", &common.Config, oauth2Provider); err != nil {
+		panic(err)
+	}
 
-	oauth2Provider := &types.OAuth2Provider{}
-	err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"oauth2provider-update.json", &common.Config, oauth2Provider)
-	if err != nil {
+	if oauth2ProviderExists(oauth2Provider.Type.ID) {
+		zap.L().Info("UpdateOAuth2Provider() OAuth2 provider exists")
+		return
+	}
+
+	zap.S().Infof("Pushing the following config %+v", oauth2Provider)
+
+	oauth2Provider.PluginsConfig.OidcClaimsScript = claimsScriptID
+	zap.S().Infow("UpdateOAuth2Provider() Updating OAuth2 provider", "claimScriptId", claimsScriptID)
+	path := "/am/json/" + common.Config.Identity.AmRealm + "/realm-config/services/oauth-oidc"
+	zap.S().Info("UpdateOAuth2Provider() Updating OAuth2Provider via the following path {}", path)
+	s := httprest.Client.Put(path, oauth2Provider, map[string]string{
+		"Accept":           "*/*",
+		"Content-Type":     "application/json",
+		"Connection":       "keep-alive",
+		"X-Requested-With": "ForgeRock Identity Cloud Postman Collection",
+	})
+
+	zap.S().Infow("UpdateOAuth2Provider() OAuth2 provider", "statusCode", s)
+}
+
+func UpdateCoreOAuth2Provider(claimsScriptID string) {
+	zap.S().Info("UpdateOAuth2Provider() Creating OAuth2Provider service in the " + common.Config.Identity.AmRealm + " realm")
+	oauth2Provider := &types.CoreOAuth2Provider{}
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"oauth2provider-core-update.json", &common.Config, oauth2Provider); err != nil {
 		panic(err)
 	}
 
@@ -362,8 +384,7 @@ func oauth2ProviderExists(id string) bool {
 		"Accept-Api-Version": "protocol=1.0,resource=1.0",
 	})
 
-	err := json.Unmarshal(b, r)
-	if err != nil {
+	if err := json.Unmarshal(b, r); err != nil {
 		panic(err)
 	}
 
@@ -376,8 +397,7 @@ func CreateBaseURLSourceService(cookie *http.Cookie) {
 	zap.S().Info("Creating BaseURLSource service in the " + common.Config.Identity.AmRealm + " realm")
 
 	s := &types.Source{}
-	err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"create-base-url-source.json", &common.Config, s)
-	if err != nil {
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"create-base-url-source.json", &common.Config, s); err != nil {
 		panic(err)
 	}
 
