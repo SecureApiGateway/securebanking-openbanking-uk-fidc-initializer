@@ -91,7 +91,8 @@ func main() {
 
 	fmt.Println("Attempt PSD2 authentication trees initialization...")
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
-	if common.Config.Environment.sapigType == "ob" {
+	
+	if common.Config.Environment.SapigType == "ob" {
     	fmt.Println("Attempt to create secure banking remote consent...")
 		securebanking.CreateSecureBankingRemoteConsentService()
 		
@@ -101,8 +102,10 @@ func main() {
 		fmt.Println("Attempt to create OB Test Directory software publisher agent...")
 		securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 	}
+
 	fmt.Println("Attempt to create Test software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentTestPublisher()
+	
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
 	securebanking.UpdateOAuth2Provider(id)
