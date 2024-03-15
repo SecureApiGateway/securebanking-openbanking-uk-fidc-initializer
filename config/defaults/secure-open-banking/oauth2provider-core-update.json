@@ -63,8 +63,7 @@
   },
   "coreOIDCConfig": {
     "supportedClaims": [
-      "acr",
-      "openbanking_intent_id"
+      "acr"
     ],
     "jwtTokenLifetime": 3600,
     "supportedIDTokenEncryptionAlgorithms": [
