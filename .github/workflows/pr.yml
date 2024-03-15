@@ -46,16 +46,14 @@ jobs:
         run: |
           make docker tag=${{ env.PR_NUMBER }}
 
-  deploy:
-    name: Deploy
+  deploy-ob:
+    name: Deploy OB
     needs: build
     runs-on: ubuntu-latest
     steps:
-
       - name: Create lowercase Github Username
         id: toLowerCase
         run: echo "GITHUB_USER=$(echo ${{github.actor}} | tr '[:upper:]' '[:lower:]')" >> ${GITHUB_ENV}
-
       - name: 'Deploy Service'
         uses: codefresh-io/codefresh-pipeline-runner@master
         if: github.actor != 'dependabot[bot]'
@@ -65,4 +63,20 @@ jobs:
           PIPELINE_NAME: 'ForgeCloud/sbat-infra/dev-ob-service-build'
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           TRIGGER_NAME: github-actions-trigger-init
-        id: run-pipeline
+  deploy-core:
+    name: Deploy Core
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create lowercase Github Username
+        id: toLowerCase
+        run: echo "GITHUB_USER=$(echo ${{github.actor}} | tr '[:upper:]' '[:lower:]')" >> ${GITHUB_ENV}
+      - name: 'Deploy Service'
+        uses: codefresh-io/codefresh-pipeline-runner@master
+        if: github.actor != 'dependabot[bot]'
+        with:
+          args: '-v TAG=${{ env.PR_NUMBER }} -v ARGO_VALUES_PREFIX=fidcConfigurator -v SERVICE_NAME=fidc-configurator -v ENVIRONMENT=${{ env.GITHUB_USER }}-core -v NEWBRANCH=${{ github.head_ref }}'
+        env:
+          PIPELINE_NAME: 'ForgeCloud/sbat-infra/dev-ob-service-build'
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          TRIGGER_NAME: github-actions-trigger-init

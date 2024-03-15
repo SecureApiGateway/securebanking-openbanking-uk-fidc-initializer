@@ -3,6 +3,11 @@ job:
   # We might not want to run the fidc configurator in all environments (for example Nightly) - setting to false will skip creating the fidc configurator in the cluster
   enabled: true
   environment:
+    # Environment Settings for SAPIG & Cloud Platform
+    # SAPIG
+    # core: base sapig
+    # ob: Open Banking specification of sapig
+    sapigType: core
     # CDK value: (Cloud Developer's Kit) development identity platform
     # CDM value: CDM (Cloud Deployment Model) identity cloud platform
     # FIDC value: FIDC (Forgerock Identity Cloud) identity cloud platform
