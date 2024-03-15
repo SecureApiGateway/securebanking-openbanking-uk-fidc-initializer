@@ -111,7 +111,7 @@ func main() {
 	if common.Config.Environment.SapigType == "ob" {
 		fmt.Println("Attempt to Create OB OAUTH2 Providers...")
 		securebanking.UpdateOAuth2Provider(id)
-	else {
+	} else {
 		fmt.Println("Attempt to Create Core OAUTH2 Providers...")
 	}
 	securebanking.CreateBaseURLSourceService(session.Cookie)
