@@ -108,7 +108,12 @@ func main() {
 	
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
-	securebanking.UpdateOAuth2Provider(id)
+	if common.Config.Environment.SapigType == "ob" {
+		fmt.Println("Attempt to Create OB OAUTH2 Providers...")
+		securebanking.UpdateOAuth2Provider(id)
+	else {
+		fmt.Println("Attempt to Create Core OAUTH2 Providers...")
+	}
 	securebanking.CreateBaseURLSourceService(session.Cookie)
 
 	time.Sleep(5 * time.Second)
@@ -120,8 +125,12 @@ func main() {
 	platform.ApplySystemClients(session.Cookie)
 
 	time.Sleep(5 * time.Second)
-	securebanking.AddOBManagedObjects()
 
+	if common.Config.Environment.SapigType == "ob" {
+		fmt.Println("Attempt to Add OB Managed Objects...")
+		securebanking.AddOBManagedObjects()
+	}
+	
 	securebanking.CreateApiJwksEndpoint()
 
 }
