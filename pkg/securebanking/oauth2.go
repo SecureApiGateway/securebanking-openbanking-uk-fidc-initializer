@@ -337,11 +337,11 @@ func UpdateOAuth2Provider(claimsScriptID string) {
 	} else {
 		panic(fmt.Sprintf("Unrecognised SapigType %v", common.Config.Environment.SapigType))
 	}
-
+    zap.S().Infof("Shaun Test %+v", oauth2Provider)
 	err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider)
 	if err != nil {
 		panic(err)
-	}
+	} 
 
 	if oauth2ProviderExists(oauth2Provider.Type.ID) {
 		zap.L().Info("UpdateOAuth2Provider() OAuth2 provider exists")
