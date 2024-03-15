@@ -57,7 +57,7 @@ type environment struct {
 	Strict    bool   `mapstructure:"STRICT"`
 	Type      string `mapstructure:"TYPE"`
 	Paths     paths  `mapstructure:"PATHS"`
-	sapigType string `mapstructure:"SAPIGTYPE"`
+	SapigType string `mapstructure:"SAPIGTYPE"`
 }
 
 type paths struct {
