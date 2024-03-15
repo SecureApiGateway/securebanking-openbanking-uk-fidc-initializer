@@ -72,18 +72,6 @@ spec:
                   name: core-deployment-config
                   key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   optional: true
-            - name: OB.ORGANISATION_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: deployment-config
-                  key: OB_ASPSP_ORG_ID
-                  optional: false
-            - name: OB.SOFTWARE_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: deployment-config
-                  key: OB_ASPSP_SOFTWARE_ID
-                  optional: false
             {{- if eq .Values.job.environment.frPlatformType "FIDC" }}
             - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
               valueFrom:
@@ -118,6 +106,18 @@ spec:
                 configMapKeyRef:
                   name: ob-deployment-config
                   key: RCS_CONSENT_RESPONSE_JWT_ISSUER
+            - name: OB.ORGANISATION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: ob-deployment-config
+                  key: OB_ASPSP_ORG_ID
+                  optional: false
+            - name: OB.SOFTWARE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: ob-deployment-config
+                  key: OB_ASPSP_SOFTWARE_ID
+                  optional: false
             {{ end }}
             - name: IG.IG_CLIENT_ID
               valueFrom:
