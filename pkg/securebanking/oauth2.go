@@ -329,8 +329,10 @@ func UpdateOAuth2Provider(claimsScriptID string) {
 	oauth2Provider := &types.OAuth2Provider{}
 	fileName := ""
 	if common.Config.Environment.SapigType == "core" {
+		zap.S().Info("UpdateOAuth2Provider() Using Core Config")
 		fileName = "oauth2provider-core-update.json"
 	} else if common.Config.Environment.SapigType == "ob" {
+		zap.S().Info("UpdateOAuth2Provider() Using OB Config")
 		fileName = "oauth2provider-update.json"
 	} else {
 		panic(fmt.Sprintf("Unrecognised SapigType %v", common.Config.Environment.SapigType))
