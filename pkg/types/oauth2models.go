@@ -102,7 +102,6 @@ type (
 	}
 
 	CoreAdvancedOIDCConfig struct {
-		JkwsURI                                                 string            `json:"jkwsURI"`
 		SupportedTokenIntrospectionResponseSigningAlgorithms    []string          `json:"supportedTokenIntrospectionResponseSigningAlgorithms"`
 		SupportedRequestParameterSigningAlgorithms              []string          `json:"supportedRequestParameterSigningAlgorithms"`
 		IDTokenInfoClientAuthenticationEnabled                  bool              `json:"idTokenInfoClientAuthenticationEnabled"`
