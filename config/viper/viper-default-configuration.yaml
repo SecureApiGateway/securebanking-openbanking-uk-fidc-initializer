@@ -58,6 +58,10 @@ IDENTITY: # Root key for parameter values related with identity platform configu
   GOOGLE_SECRET_STORE_PROJECT: sbat-dev # name of the Google Cloud project which contains the secrets
   GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME: am-oauth2-ca-certs # Google Secrets Manager secret name for secret containing trusted OAuth2 CA certs
 
+OB:
+  ORGANISATION_ID: override this # This should be the Open Banking Org ID of the ASPIP in OB Directory
+  SOFTWARE_ID: override_this # This should be the Open Banking Software ID of the ASPSP in OB Directory
+
 USERS: # Root key users to be created or to authenticate and authorize flows
   FR_PLATFORM_ADMIN_USERNAME: amadmin # Identity platform Username with admin grants (must exist previously)
   FR_PLATFORM_ADMIN_PASSWORD: replace-me # Identity platform User password with admin grants (must exist previously)
