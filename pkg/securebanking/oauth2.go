@@ -3,7 +3,6 @@ package securebanking
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"io/ioutil"
 	"net/http"
 	"secure-banking-uk-initializer/pkg/common"
