@@ -323,21 +323,10 @@ func CreateOIDCClaimsScript(cookie *http.Cookie) string {
 }
 
 // UpdateOAuth2Provider - update the oauth 2 provider, must supply the claimScript ID
-func UpdateOAuth2Provider(claimsScriptID string) {
+func UpdateOBOAuth2Provider(claimsScriptID string) {
 	zap.S().Info("UpdateOAuth2Provider() Creating OAuth2Provider service in the " + common.Config.Identity.AmRealm + " realm")
-	fileName := ""
-	oauth2Provider := &types.CoreOAuth2Provider{}
-	if common.Config.Environment.SapigType == "core" {
-		zap.S().Info("UpdateOAuth2Provider() Using Core Config")
-		fileName = "oauth2provider-core-update.json"
-	} else if common.Config.Environment.SapigType == "ob" {
-		zap.S().Info("UpdateOAuth2Provider() Using OB Config")
-		fileName = "oauth2provider-update.json"
-	} else {
-		panic(fmt.Sprintf("Unrecognised SapigType %v", common.Config.Environment.SapigType))
-	}
-
-	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider); err != nil {
+	oauth2Provider := &types.OBOAuth2Provider{}
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"oauth2provider-update.json", &common.Config, oauth2Provider); err != nil {
 		panic(err)
 	}
 
@@ -362,6 +351,33 @@ func UpdateOAuth2Provider(claimsScriptID string) {
 	zap.S().Infow("UpdateOAuth2Provider() OAuth2 provider", "statusCode", s)
 }
 
+func UpdateCoreOAuth2Provider(claimsScriptID string) {
+	zap.S().Info("UpdateOAuth2Provider() Creating OAuth2Provider service in the " + common.Config.Identity.AmRealm + " realm")
+	oauth2Provider := &types.CoreOAuth2Provider{}
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+"oauth2provider-core-update.json", &common.Config, oauth2Provider); err != nil {
+		panic(err)
+	}
+
+	if oauth2ProviderExists(oauth2Provider.Type.ID) {
+		zap.L().Info("UpdateOAuth2Provider() OAuth2 provider exists")
+		return
+	}
+
+	zap.S().Infof("Pushing the following config %+v", oauth2Provider)
+
+	oauth2Provider.PluginsConfig.OidcClaimsScript = claimsScriptID
+	zap.S().Infow("UpdateOAuth2Provider() Updating OAuth2 provider", "claimScriptId", claimsScriptID)
+	path := "/am/json/" + common.Config.Identity.AmRealm + "/realm-config/services/oauth-oidc"
+	zap.S().Info("UpdateOAuth2Provider() Updating OAuth2Provider via the following path {}", path)
+	s := httprest.Client.Put(path, oauth2Provider, map[string]string{
+		"Accept":           "*/*",
+		"Content-Type":     "application/json",
+		"Connection":       "keep-alive",
+		"X-Requested-With": "ForgeRock Identity Cloud Postman Collection",
+	})
+
+	zap.S().Infow("UpdateOAuth2Provider() OAuth2 provider", "statusCode", s)
+}
 func oauth2ProviderExists(id string) bool {
 	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/services?_queryFilter=true"
 	r := &types.AmResult{}
