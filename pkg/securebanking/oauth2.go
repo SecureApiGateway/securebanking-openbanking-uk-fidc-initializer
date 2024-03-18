@@ -340,7 +340,7 @@ func UpdateOAuth2Provider(claimsScriptID string) {
     zap.S().Infof("Shaun Test %+v", oauth2Provider)
 
 
-	if err := json.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider); err != nil {
+	if err := json.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, oauth2Provider); err != nil {
 		panic(err)
 	}
 
