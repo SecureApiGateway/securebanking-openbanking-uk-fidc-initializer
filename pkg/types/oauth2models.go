@@ -69,7 +69,7 @@ type (
 
 	LoaMapping struct {
 		UrnOpenbankingPsd2Sca string `json:"urn:openbanking:psd2:sca"`
-		UrnOpenbankingPsd2Ca  string `json:"urn:openbanking:psd2:ca"`
+		UrnOpenbankingPsd2Ca  string `json:"urn:SHAUNTEST:psd2:ca"`
 	}
 	AmrMappings struct {
 	}

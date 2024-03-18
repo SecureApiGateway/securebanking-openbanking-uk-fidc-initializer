@@ -3,6 +3,7 @@ package securebanking
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"io/ioutil"
 	"net/http"
 	"secure-banking-uk-initializer/pkg/common"
@@ -340,7 +341,7 @@ func UpdateOAuth2Provider(claimsScriptID string) {
     zap.S().Infof("Shaun Test %+v", oauth2Provider)
 
 
-	if err := json.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, oauth2Provider); err != nil {
+	if err := common.Unmarshal(common.Config.Environment.Paths.ConfigSecureBanking+fileName, &common.Config, oauth2Provider); err != nil {
 		panic(err)
 	}
 
