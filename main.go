@@ -93,7 +93,7 @@ func main() {
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
 	
 	if common.Config.Environment.SapigType == "ob" {
-    	fmt.Println("Attempt to create secure banking remote consent...")
+		fmt.Println("Attempt to create secure banking remote consent...")
 		securebanking.CreateSecureBankingRemoteConsentService()
 
 		fmt.Println("Attempt to create OB Test Directory software publisher agent...")
