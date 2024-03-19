@@ -65,3 +65,9 @@ func TestFindOAuth2Provider(t *testing.T) {
 
 	assert.True(t, b)
 }
+
+//func TestUpdateOBOAuth2Provider(t *testing.T) {
+//	mockRestReaderWriter := &mocks.RestReaderWriter{}
+//	httprest.Client = mockRestReaderWriter
+//	buffer, _ := ioutil.ReadFile("")
+//}

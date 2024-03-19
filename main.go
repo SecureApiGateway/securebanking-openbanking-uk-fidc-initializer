@@ -91,17 +91,30 @@ func main() {
 
 	fmt.Println("Attempt PSD2 authentication trees initialization...")
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
-	fmt.Println("Attempt to create secure banking remote consent...")
-	securebanking.CreateSecureBankingRemoteConsentService()
+	
+	if common.Config.Environment.SapigType == "ob" {
+		fmt.Println("Attempt to create secure banking remote consent...")
+		securebanking.CreateSecureBankingRemoteConsentService()
+
+		fmt.Println("Attempt to create OB Test Directory software publisher agent...")
+		securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
+	}
+		
 	fmt.Println("Attempt to create OBRI software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentOBRI()
-	fmt.Println("Attempt to create OB Test Directory software publisher agent...")
-	securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
+
 	fmt.Println("Attempt to create Test software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentTestPublisher()
+	
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
-	securebanking.UpdateOAuth2Provider(id)
+	if common.Config.Environment.SapigType == "ob" {
+		fmt.Println("Attempt to Create OB OAUTH2 Providers...")
+		securebanking.UpdateOBOAuth2Provider(id)
+	} else {
+		fmt.Println("Attempt to Create Core OAUTH2 Providers...")
+		securebanking.UpdateCoreOAuth2Provider(id)
+	}
 	securebanking.CreateBaseURLSourceService(session.Cookie)
 
 	time.Sleep(5 * time.Second)
@@ -113,8 +126,12 @@ func main() {
 	platform.ApplySystemClients(session.Cookie)
 
 	time.Sleep(5 * time.Second)
-	securebanking.AddOBManagedObjects()
 
+	if common.Config.Environment.SapigType == "ob" {
+		fmt.Println("Attempt to Add OB Managed Objects...")
+		securebanking.AddOBManagedObjects()
+	}
+	
 	securebanking.CreateApiJwksEndpoint()
 
 }
@@ -136,8 +153,7 @@ func loadLogger() {
 
 func loadConfiguration() {
 	fmt.Println("Load the [", viper.GetString("ENVIRONMENT.VIPER_CONFIG"), "] configuration.....")
-	err := common.LoadConfigurationByEnv(viper.GetString("ENVIRONMENT.VIPER_CONFIG"))
-	if err != nil {
+	if err := common.LoadConfigurationByEnv(viper.GetString("ENVIRONMENT.VIPER_CONFIG")); err != nil {
 		zap.S().Fatalw("Cannot load config:", "error", err)
 	}
 	config = common.Config
