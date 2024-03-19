@@ -95,10 +95,10 @@ func main() {
 	if common.Config.Environment.SapigType == "ob" {
     	fmt.Println("Attempt to create secure banking remote consent...")
 		securebanking.CreateSecureBankingRemoteConsentService()
-		
-		fmt.Println("Attempt to create OB Test Directory software publisher agent...")
-		securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 	}
+	
+	fmt.Println("Attempt to create OB Test Directory software publisher agent...")
+	securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 	
 	fmt.Println("Attempt to create OBRI software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentOBRI()
@@ -153,8 +153,7 @@ func loadLogger() {
 
 func loadConfiguration() {
 	fmt.Println("Load the [", viper.GetString("ENVIRONMENT.VIPER_CONFIG"), "] configuration.....")
-	err := common.LoadConfigurationByEnv(viper.GetString("ENVIRONMENT.VIPER_CONFIG"))
-	if err != nil {
+	if err := common.LoadConfigurationByEnv(viper.GetString("ENVIRONMENT.VIPER_CONFIG")); err != nil {
 		zap.S().Fatalw("Cannot load config:", "error", err)
 	}
 	config = common.Config
