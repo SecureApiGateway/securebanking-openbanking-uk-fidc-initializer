@@ -1,0 +1,106 @@
+{
+  "corsServiceGlobal": {
+    "_id": "",
+    "_rev": "515901845",
+    "enabled": true,
+    "_type": {
+      "_id": "CorsService",
+      "name": "CORS Service",
+      "collection": false
+    }
+  },
+  "corsServices": [
+    {
+      "maxAge": 0,
+      "exposedHeaders": [
+        "Cache-Control",
+        "Content-Language",
+        "Expires",
+        "Last-Modified",
+        "Pragma",
+        "Content-Type",
+        "cache-control",
+        "content-api-version",
+        "content-length",
+        "date",
+        "etag",
+        "expires",
+        "pragma",
+        "set-cookie",
+        "strict-transport-security",
+        "x-content-type-options",
+        "x-forgerock-transactionid",
+        "x-frame-options",
+        "Access-Control-Allow-Origin"
+      ],
+      "acceptedHeaders": [
+        "Accept",
+        "accept-api-version",
+        "Referer",
+        "sec-ch-ua",
+        "sec-ch-ua-moblie",
+        "sec-ch-ua-platform",
+        "User-Agent",
+        "iPlanetDirectoryPro",
+        "Content-Type",
+        "authority",
+        "method",
+        "path",
+        "scheme",
+        "accept",
+        "accept-encoding",
+        "accept-language",
+        "referer",
+        "sec-fetch-dest",
+        "sec-fetch-mode",
+        "sec-fetch-site",
+        "user-agent",
+        "cookie",
+        "sec-fetch-user",
+        "upgrade-insecure-requests",
+        "authorization",
+        "x-requested-with",
+        "x-forgerock-transactionid"
+      ],
+      "allowCredentials": true,
+      "acceptedMethods": [
+        "POST",
+        "PUT",
+        "GET",
+        "DELETE",
+        "PATCH",
+        "FETCH",
+        "OPTIONS"
+      ],
+      "acceptedOrigins": {
+        "$list": "&{esv.cors.accepted.origins}"
+      },
+      "enabled": true,
+      "_id": "login-ui-cors",
+      "_type": {
+        "_id": "configuration",
+        "name": "Cors Configuration",
+        "collection": true
+      }
+    }
+  ],
+  "idmCorsConfig": {
+    "_id": "servletfilter/cors",
+    "classPathURLs": [],
+    "filterClass": "org.eclipse.jetty.servlets.CrossOriginFilter",
+    "initParams": {
+      "allowCredentials": false,
+      "allowedHeaders": "authorization,accept,content-type,origin,x-requested-with,cache-control,accept-api-version",
+      "allowedMethods": "GET,POST,PUT,DELETE,PATCH",
+      "allowedOrigins": "*",
+      "chainPreflight": false,
+      "exposedHeaders": "WWW-Authenticate"
+    },
+    "requestAttributes": {},
+    "scriptExtensions": {},
+    "systemProperties": {},
+    "urlPatterns": [
+      "/*"
+    ]
+  }
+}

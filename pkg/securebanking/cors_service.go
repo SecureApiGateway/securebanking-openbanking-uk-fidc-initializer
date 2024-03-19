@@ -11,5 +11,5 @@ func ConfigureAmCorsService(cookie *http.Cookie) {
 	zap.L().Info("Configuring CORS")
 	CreateCrestResourceFromConfigFile(fmt.Sprintf("https://%s/am/json/global-config/services/CorsService/configuration?_action=create",
 		common.Config.Hosts.IdentityPlatformFQDN),
-		"cors-login-ui.json", cookie)
+		"cors/cors-config.json", cookie)
 }
