@@ -128,8 +128,8 @@ func main() {
 	time.Sleep(5 * time.Second)
 
 	
-	fmt.Println("Attempt to Add SAPIG Managed Objects...")
-	securebanking.AddSAPIGManagedObjects()
+	fmt.Println("Attempt to Add IAM Managed Objects...")
+	securebanking.AddIAMManagedObjects()
 	
 	
 	securebanking.CreateApiJwksEndpoint()
