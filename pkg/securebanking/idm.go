@@ -63,7 +63,7 @@ type OBManagedObjects struct {
 	} `json:"objects"`
 }
 
-// AddIamManagedObjects - Add managed objects to IDM. This will look for json in the managed objects config directory
+// AddIAMManagedObjects - Add managed objects to IDM. This will look for json in the managed objects config directory
 //  and add them to IDM if they dont already exist.
 func AddIamManagedObjects() {
 	configPath := common.Config.Environment.Paths.ConfigSecureBanking + "managed-objects/"
