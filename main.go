@@ -127,10 +127,10 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	if common.Config.Environment.SapigType == "ob" {
-		fmt.Println("Attempt to Add OB Managed Objects...")
-		securebanking.AddOBManagedObjects()
-	}
+	
+	fmt.Println("Attempt to Add SAPIG Managed Objects...")
+	securebanking.AddSAPIGManagedObjects()
+	
 	
 	securebanking.CreateApiJwksEndpoint()
 
