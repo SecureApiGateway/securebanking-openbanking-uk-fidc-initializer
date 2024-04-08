@@ -201,7 +201,7 @@ func CreateSoftwarePublisherAgentOBTestDirectory() {
 		},
 		JwksURI: types.InheritedValueString{
 			Inherited: false,
-			Value:     "https://" + common.Config.Hosts.IgFQDN + "/jwkms/jwksproxy/keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
+			Value:     "https://keystore.openbankingtest.org.uk/keystore/openbanking.jwks",
 		},
 	}
 	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.ObTestDirectorySoftwarePublisherAgent
