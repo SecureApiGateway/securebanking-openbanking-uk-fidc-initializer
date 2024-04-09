@@ -91,21 +91,21 @@ func main() {
 
 	fmt.Println("Attempt PSD2 authentication trees initialization...")
 	securebanking.CreateSecureBankingPSD2AuthenticationTrees()
-	
+
 	if common.Config.Environment.SapigType == "ob" {
 		fmt.Println("Attempt to create secure banking remote consent...")
 		securebanking.CreateSecureBankingRemoteConsentService()
-
-		fmt.Println("Attempt to create OB Test Directory software publisher agent...")
-		securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 	}
-		
-	fmt.Println("Attempt to create OBRI software publisher agent...")
-	securebanking.CreateSoftwarePublisherAgentOBRI()
+
+	// We want to support the OB Test Directory in both core and OB deployments.
+	// For core, this means we can use OB certs when registering TPPs which is much simpler to configure than using
+	// certs issued by the Test Trusted Directory.
+	fmt.Println("Attempt to create OB Test Directory software publisher agent...")
+	securebanking.CreateSoftwarePublisherAgentOBTestDirectory()
 
 	fmt.Println("Attempt to create Test software publisher agent...")
 	securebanking.CreateSoftwarePublisherAgentTestPublisher()
-	
+
 	fmt.Println("Attempt to create OIDC claims script..")
 	id := securebanking.CreateOIDCClaimsScript(session.Cookie)
 	if common.Config.Environment.SapigType == "ob" {
@@ -129,7 +129,7 @@ func main() {
 
 	fmt.Println("Attempt to Add IAM Managed Objects...")
 	securebanking.AddIamManagedObjects()
-	
+
 	securebanking.CreateApiJwksEndpoint()
 }
 
