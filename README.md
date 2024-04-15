@@ -57,7 +57,7 @@ In the example command below the iam initializer is being deployed into a namesp
 
 ```bash
 $ helm upgrade iam-init ./ --install --namespace local-dev-sbat \
-  --set-string environment.type=CDK \
+  --set-string environment.CloudType=CDK \
   --set-string environment.fr_platform.fqdn=iam.openbanking.bigbank.com
   --set-string environment.sbat.domain=sbat.openbanking.bigbank.com --wait
 ```
@@ -147,7 +147,7 @@ There are a variables used before load the configuration file and these variable
 | `ENVIRONMENT.VIPER_CONFIG`                   | default                              | The profile that contains the configuration to be overwritten from system env                                                                                                                                     |
 | `ENVIRONMENT.ONLY_CONFIG`                    | false                                | Prints the configuration and exiting the program, to review the properties                                                                                                                                        |
 | `ENVIRONMENT.STRICT`                         | false                                | true = strict mode on, otherwise off, will exit if go resty returns an error in STRICT mode enabled, be it client error, server error or other. Turning off STRICT mode will simply warn of client/server errors. |
-| `ENVIRONMENT.TYPE`                           | CDK                                  | values: CDK, CDM or FIDC,  to identify the kind of identity platform                                                                                                                                              |
+| `ENVIRONMENT.CLOUDTYPE`                           | CDK                                  | values: CDK, CDM or FIDC,  to identify the kind of identity platform                                                                                                                                              |
 | `ENVIRONMENT.PATHS.CONFIG_BASE_DIRECTORY`    | config/defaults/                     | Base configuration root path folder for data files and templates to populate them into identity platform                                                                                                          |
 | `ENVIRONMENT.PATHS.CONFIG_SECURE_BANKING`    | config/defaults/secure-open-banking/ | Base configuration path folder for specific secure open banking data files and templates to populate them into identity platform                                                                                  |
 | `ENVIRONMENT.PATHS.CONFIG_IDENTITY_PLATFORM` | config/defaults/identity-platform/   | Base configuration path folder for generic data files and templates to populate them into identity platform                                                                                                       |

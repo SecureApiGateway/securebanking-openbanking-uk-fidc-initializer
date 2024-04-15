@@ -78,7 +78,7 @@ func main() {
 	fmt.Println("Attempting to create AM Validation Service")
 	securebanking.CreateAmValidationService(session.Cookie)
 
-	if common.Config.Environment.Type != "FIDC" {
+	if common.Config.Environment.CloudType != "FIDC" {
 		fmt.Println("Attempting to configure AM Global Services Platform")
 		securebanking.ConfigureAmPlatformService(session.Cookie)
 	}
@@ -192,11 +192,11 @@ func getIdentityPlatformSession() *common.Session {
 // FIDC
 func createIdentityPlatformOAuth2AdminClient(session *common.Session) {
 	// operation not supported on CDM (identity cloud platform)
-	if config.Environment.Type == types.Platform.Instance().CDK {
+	if config.Environment.CloudType == types.Platform.Instance().CDK {
 		platform.CreateIdentityPlatformOAuth2AdminClient(session.Cookie)
 	} else {
 		zap.S().Infow("SKIP: Creating OAuth2Client Identity Platform admin client, the platform instance is not a CDK",
-			"platform type", config.Environment.Type)
+			"platform type", config.Environment.CloudType)
 	}
 }
 

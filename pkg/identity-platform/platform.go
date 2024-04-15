@@ -34,7 +34,7 @@ func CreateIGServiceUser() {
 	}
 	path := "/openidm/managed/user/?_action=create"
 	//FIDC IDM default user managed objects use a different naming pattern <realm>_user Eg:alpha_user
-	if common.Config.Environment.Type == "FIDC" {
+	if common.Config.Environment.CloudType == "FIDC" {
 		path = "/openidm/managed/" + common.Config.Identity.AmRealm + "_user/?_action=create"
 	}
 	_, s := httprest.Client.Post(path, user, map[string]string{
