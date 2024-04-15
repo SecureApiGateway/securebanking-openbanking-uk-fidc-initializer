@@ -200,7 +200,7 @@ These are the values that are consumed in the `deployment.yaml` and `service.yam
 | Key | Type | Description | Default |
 |-----|------|-------------|---------|
 | cronjob.concurrencyPolicy | string |   # Policy of allowing concurrent pods to run | Forbid |
-| cronjob.environment.frPlatformType | string | Type of Cloud Instance being ran, depends on what environment you are running | FIDC |
+| cronjob.environment.cloudType | string | Type of Cloud Instance being ran, depends on what environment you are running | FIDC |
 | cronjob.environment.strict | bool | If true, any errors will cause the job to exit | true |
 | cronjob.image.repo | string | Repo to pull images from - Value should exist in values.yaml overlay in deployment repo | {} |
 | cronjob.image.tag | string | Tag to deploy - Value should exist in values.yaml overlay in deployment repo | {} |

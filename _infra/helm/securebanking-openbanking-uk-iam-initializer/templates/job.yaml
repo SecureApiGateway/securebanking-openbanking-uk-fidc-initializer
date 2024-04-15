@@ -74,7 +74,7 @@ spec:
                   name: core-deployment-config
                   key: IDENTITY_GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME
                   optional: true
-            {{- if eq .Values.job.environment.frPlatformType "FIDC" }}
+            {{- if eq .Values.job.environment.cloudType "FIDC" }}
             - name: USERS.FR_PLATFORM_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
