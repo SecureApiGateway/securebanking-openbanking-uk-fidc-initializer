@@ -36,7 +36,7 @@ func FromUserSession(cookieName string) *common.Session {
 	zap.L().Info("Getting an admin session from Identity Platform")
 
 	path := ""
-	platformType := common.Config.Environment.Type
+	platformType := common.Config.Environment.CloudType
 	if platformType == "FIDC" {
 		path = fmt.Sprintf("https://%s/am/json/realms/root/authenticate", common.Config.Hosts.IdentityPlatformFQDN)
 	} else {

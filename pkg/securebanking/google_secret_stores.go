@@ -19,7 +19,7 @@ func ConfigureGoogleSecretStore(cookie *http.Cookie) {
 		zap.S().Infow("No Google Secret Stores found in config, nothing to do.")
 		return
 	}
-	if common.Config.Environment.Type == "CDK" {
+	if common.Config.Environment.CloudType == "CDK" {
 		configureCdkGoogleSecretStore(cookie, storeName)
 	}
 

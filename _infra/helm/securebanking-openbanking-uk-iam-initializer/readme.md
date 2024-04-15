@@ -51,7 +51,7 @@ spec:
               env:
                 - name: ENVIRONMENT.STRICT
                   value: "true"
-                - name: ENVIRONMENT.TYPE
+                - name: ENVIRONMENT.CLOUDTYPE
                   valueFrom:
                     configMapKeyRef:
                       name: core-deployment-config
@@ -174,7 +174,7 @@ These are the environment variables declared in the `cronjob.yaml`;
 | Key | Default | Description | Source | Optional |
 |-----|---------|-------------|--------|----------|
 | ENVIRONMENT.STRICT | true | If true, any errors will cause the job to exit | cronjob.environment.strict |
-| ENVIRONMENT.TYPE | FIDC | Type of Cloud Instance being ran, depends on what environment you are running | core-deployment-config |
+| ENVIRONMENT.CLOUDTYPE | FIDC | Type of Cloud Instance being ran, depends on what environment you are running | core-deployment-config |
 | IDENTITY_PLATFORM_FQDN | iam.forgerock.financial | Custom Domain created in Cloud Instance | core-deployment-config |
 | HOSTS.BASE_FQDN | forgerock.financial | Base DNS to be used | core-deployment-config |
 | HOSTS.IG_FQDN | sapig.forgerock.financial | IG DNS to be used | core-deployment-config |
@@ -183,8 +183,8 @@ These are the environment variables declared in the `cronjob.yaml`;
 | IDENTITY.DEFAULT_USER_AUTHENTICATION_SERVICE | | | core-deployment-config | X |
 | IDENTITY.GOOGLE_SECRET_STORE_NAME | | | core-deployment-config | X |
 | IDENTITY.GOOGLE_SECRET_STORE_OAUTH2_CA_CERTS_SECRET_NAME | | | core-deployment-config | X |
-| USERS.FR_PLATFORM_ADMIN_PASSWORD | | Password for cloud instance. NOTE - This password can be used for `initializer-secret` or `am-env-secrets` depending on `ENVIRONMENT.TYPE` set | If `ENVIRONMENT.TYPE=FIDC` initializer-secret/cdm-admin-password else am-env-secrets/AM_PASSWORDS_AMADMIN_CLEAR |
-| USERS.FR_PLATFORM_ADMIN_USERNAME | | Username for cloud instance, only populated if `ENVIRONMENT.TYPE=FIDC` | initializer-secret/cdm-admin-user |
+| USERS.FR_PLATFORM_ADMIN_PASSWORD | | Password for cloud instance. NOTE - This password can be used for `initializer-secret` or `am-env-secrets` depending on `ENVIRONMENT.CLOUDTYPE` set | If `ENVIRONMENT.CLOUDTYPE=FIDC` initializer-secret/cdm-admin-password else am-env-secrets/AM_PASSWORDS_AMADMIN_CLEAR |
+| USERS.FR_PLATFORM_ADMIN_USERNAME | | Username for cloud instance, only populated if `ENVIRONMENT.CLOUDTYPE=FIDC` | initializer-secret/cdm-admin-user |
 | IDENTITY.REMOTE_CONSENT_SIGNING_PUBLIC_KEY | PEM File | The pem file to be used for RCS signing | rcs-signing secret | 
 | IDENTITY.REMOTE_CONSENT_SIGNING_KEY_ID | rcs-jwt-signer | | core-deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID 
 IDENTITY.REMOTE_CONSENT_ID | secure-open-banking-rcs | | core-deployment-config/RCS_CONSENT_RESPONSE_JWT_SIGNINGKEYID | 
