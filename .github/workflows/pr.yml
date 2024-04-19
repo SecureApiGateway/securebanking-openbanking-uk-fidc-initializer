@@ -11,5 +11,5 @@ jobs:
     uses: SecureApiGateway/secure-api-gateway-ci/.github/workflows/pr-template.yml@1389-standard-steps-for-workflows
     secrets: inherit
     with:
-      componentName: fidc-configurator
+      componentName: secure-api-gateway-ob-uk-fidc-initializer
       prNumber: pr-${{ github.event.number }}
