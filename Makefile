@@ -1,5 +1,5 @@
 service := secureopenbanking-uk-iam-initializer
-gcr-repo := europe-west4-docker.pkg.dev/sbat-gcr-develop/sapig-docker-artifact
+repo := europe-west4-docker.pkg.dev/sbat-gcr-develop/sapig-docker-artifact
 binary-name := initialize
 
 
@@ -26,13 +26,23 @@ clean:
 
 docker: clean mod
 ifndef tag
-	$(warning No tag supplied, latest assumed. supply tag with make docker tag=x.x.x service=...)
+	$(warning no tag supplied; latest assumed)
 	$(eval tag=latest)
 endif
+ifndef setlatest
+	$(warning no setlatest true|false supplied; false assumed)
+	$(eval setlatest=false)
+endif
 	env GOOS=linux GOARCH=amd64 go build -o initialize
-	docker buildx build --platform linux/amd64  -t ${gcr-repo}/securebanking/${service}:${tag} .
-	docker push ${gcr-repo}/securebanking/${service}:${tag}
+	if [ "${setlatest}" = "true" ]; then \
+		docker buildx build --platform linux/amd64 -t ${repo}/securebanking/${service}:${tag} -t ${repo}/securebanking/${service}:latest . ; \
+		docker push ${repo}/securebanking/${service} --all-tags; \
+    else \
+   		docker buildx build --platform linux/amd64 -t ${repo}/securebanking/${service}:${tag} . ; \
+   		docker push ${repo}/securebanking/${service}:${tag}; \
+   	fi;
+
 ifdef release-repo
-	docker tag ${gcr-repo}/securebanking/${service}:${tag} ${release-repo}/securebanking/${service}:${tag}
+	docker tag ${repo}/securebanking/${service}:${tag} ${release-repo}/securebanking/${service}:${tag}
 	docker push ${release-repo}/securebanking/${service}:${tag}
 endif
