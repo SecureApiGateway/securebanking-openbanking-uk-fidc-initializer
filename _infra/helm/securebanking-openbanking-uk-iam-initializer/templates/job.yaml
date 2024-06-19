@@ -65,6 +65,11 @@ spec:
                   name: core-deployment-config
                   key: IDENTITY_GOOGLE_SECRET_STORE_NAME
                   optional: true
+            - name: TRUSTED_DIR_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
+              valueFrom:
+                configMapKeyRef:
+                  name: core-deployment-config
+                  key: TRUSTEDDIR_FQDN
             - name: IDENTITY.GOOGLE_SECRET_STORE_PROJECT
               valueFrom:
                 configMapKeyRef:

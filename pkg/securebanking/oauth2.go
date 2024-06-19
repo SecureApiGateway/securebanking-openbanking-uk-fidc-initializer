@@ -202,7 +202,7 @@ func CreateSoftwarePublisherAgentTestPublisher() {
 		},
 		JwksURI: types.InheritedValueString{
 			Inherited: false,
-			Value:     "https://" + common.Config.Hosts.IgFQDN + "/jwkms/testdirectory/jwks",
+			Value:     "https://" + common.Config.Hosts.TrustedDirFQDN + "/jwkms/testdirectory/jwks",
 		},
 	}
 	path := "/am/json/realms/root/realms/" + common.Config.Identity.AmRealm + "/realm-config/agents/SoftwarePublisher/" + common.Config.Identity.SecureApiGatewayDevTrustedDirectory
