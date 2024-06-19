@@ -24,6 +24,7 @@ type hosts struct {
 	IdentityPlatformFQDN string   `mapstructure:"IDENTITY_PLATFORM_FQDN"`
 	Scheme               string   `mapstructure:"SCHEME"`
 	IgAudienceFQDNs      []string `mapstructure:"IG_AUDIENCE_FQDNS"`
+	TrustedDirFQDN       string   `mapstructure:"TRUSTED_DIR_FQDN"`
 }
 
 type identity struct {
@@ -54,11 +55,11 @@ type ig struct {
 	IgAgentPassword string `mapstructure:"IG_AGENT_PASSWORD"`
 }
 type environment struct {
-	Verbose        bool   `mapstructure:"VERBOSE"`
-	Strict         bool   `mapstructure:"STRICT"`
-	CloudType      string `mapstructure:"CLOUDTYPE"`
-	Paths          paths  `mapstructure:"PATHS"`
-	SapigType      string `mapstructure:"SAPIGTYPE"`
+	Verbose   bool   `mapstructure:"VERBOSE"`
+	Strict    bool   `mapstructure:"STRICT"`
+	CloudType string `mapstructure:"CLOUDTYPE"`
+	Paths     paths  `mapstructure:"PATHS"`
+	SapigType string `mapstructure:"SAPIGTYPE"`
 }
 
 type paths struct {
