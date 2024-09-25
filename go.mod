@@ -8,7 +8,7 @@ require (
 	github.com/pact-foundation/pact-go v1.5.2
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
-	go.uber.org/zap v1.21.0
+	go.uber.org/zap v1.27.0
 )
 
 require github.com/dgrijalva/jwt-go v3.2.0+incompatible
