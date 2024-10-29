@@ -31,6 +31,16 @@
             "isVirtual": false,
             "deleteQueryConfig": false
           },
+          "softwareId": {
+            "title": "software_id",
+            "type": "string",
+            "viewable": true,
+            "searchable": true,
+            "userEditable": true,
+            "description": null,
+            "isVirtual": false,
+            "deleteQueryConfig": false
+          },
           "name": {
             "title": "API Client Name",
             "type": "string",
@@ -157,7 +167,7 @@
         },
         "order": [
           "_id",
-          "id",
+          "softwareId",
           "name",
           "description",
           "deleted",
@@ -168,13 +178,17 @@
           "oauth2ClientId"
         ],
         "required": [
-          "id",
           "name",
           "oauth2ClientId",
           "ssa",
           "deleted"
         ],
         "mat-icon": null
+      },
+      "onRead": {
+        "type": "text/javascript",
+        "globals": {},
+        "source": "if (object.softwareId === undefined) {\n  object.softwareId = object.id\n}"
       },
       "iconClass": "fa fa-database",
       "type": "Managed Object"
