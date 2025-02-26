@@ -62,6 +62,7 @@ func CreateSecureBankingRemoteConsentService() {
 			Inherited: false,
 			Value:     "A128GCM",
 		},
+		// SH-ToDO - Check if RS FQDN?
 		RemoteConsentRedirectURL: types.InheritedValueString{
 			Inherited: false,
 			Value:     fmt.Sprintf("https://%s/rcs/ui/consent", common.Config.Hosts.IgFQDN),
