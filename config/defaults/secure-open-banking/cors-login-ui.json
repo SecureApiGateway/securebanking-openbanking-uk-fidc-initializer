@@ -2,7 +2,7 @@
   "_id": "login-ui-cors",
   "enabled": true,
   "acceptedOrigins": [
-    "https://{{.Hosts.ASIgFQDN}}, https://{{.HOSTS.RSIgFQDN}}"
+    "https://{{.Hosts.ASFQDN}}, https://{{.HOSTS.RSFQDN}}"
   ],
   "acceptedMethods": [
     "POST",
